@@ -1,2 +1,2 @@
-# bu-rcs.github.io
-Boston University Research Computing 
+# Boston University Research Computing Services
+Training Resources 
