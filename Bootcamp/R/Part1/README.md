@@ -1,5 +1,26 @@
+Research Computing Bootcamp
+================
+Boston University
 
-# Research Computing Bootcamp
+<style type="text/css">
+
+body{ /* Normal  */
+  font-size: 12px;
+}
+td {  /* Table  */
+  font-size: 8px;
+}
+code.r{ /* Code block */
+    font-size: 12px;
+    background-color: #FAEAEA; 
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 12px;
+     
+}
+</style>
+
+<br><br>
 
 ### R Track: Part 1
 
@@ -17,7 +38,7 @@ programming language. We will go over:
 
 Let’s try to perform basic arithmetic operations, i.e:
 
-``` r
+``` r bg-success
 4 + 7
 ```
 

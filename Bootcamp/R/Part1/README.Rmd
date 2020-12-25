@@ -1,12 +1,36 @@
 ---
-output: github_document
+title: "Research Computing Bootcamp"
+author: "Boston University"
+output:
+  html_document:
+    df_print: paged
 ---
 
+<style type="text/css">
+
+body{ /* Normal  */
+  font-size: 12px;
+}
+td {  /* Table  */
+  font-size: 8px;
+}
+code.r{ /* Code block */
+    font-size: 12px;
+    background-color: #FAEAEA; 
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 12px;
+     
+}
+</style>
+
+<br><br>
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, class.source="bg-success")
 ```
 
-# Research Computing Bootcamp
+
 ### R Track: Part 1
 
 This Bootcamp will teach you how to analyze a dataset using R programming language.
