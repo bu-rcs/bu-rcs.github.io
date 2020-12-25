@@ -3,3 +3,6 @@ logo: /images/starburst7.png
 description: Training Resources.
 show_downloads: false
 title: [BU Research Computing Services]
+title_separator: "-"
+url: https://bu-rcs.github.io
+
