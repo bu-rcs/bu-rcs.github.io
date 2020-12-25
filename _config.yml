@@ -1,5 +1,5 @@
 theme: jekyll-theme-minimal
 logo: /images/starburst7.png
-description: Minimal is a theme for GitHub Pages.
-show_downloads: true
-google_analytics:
+description: Training Resources.
+show_downloads: false
+title: [BU Research Computing Services]
