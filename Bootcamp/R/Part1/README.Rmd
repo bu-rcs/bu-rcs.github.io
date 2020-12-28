@@ -37,15 +37,7 @@ knitr::opts_chunk$set(echo = TRUE, class.source="bg-success")
 
 ## R Track: Part 1 - Introduction to R
 
-This Bootcamp will teach you how to analyze a dataset using R programming language.
-We will go over:
 
-- Import your data into R
-- Clean (tidy) data
-- Transform Data
-- Explore the data using visualization tools
-- Run basic statistical analysis
-- Communicate results
 
 ### Basic Arithmetic
 
@@ -484,6 +476,12 @@ install.packages("readr")
 
 In RStudio, the list of installed packages are available in the lower right window under *Packages tab*.
 
+
+<br/><br/>
+
+**For the next session, please install**: *tidyverse*. `tidyverse` is a collection of very popular R packages that are used in everyday data analysis.
+<br/><br/>
+
 <h4 class="more">Read more:</h4>
 
 - [R Package: A Beginner's Guide](https://www.datacamp.com/community/tutorials/r-packages-guide)
@@ -492,11 +490,6 @@ In RStudio, the list of installed packages are available in the lower right wind
 - [R Data Import and Export](https://cran.r-project.org/doc/manuals/r-release/R-data.html)
 - [More on R Data Import and Export](https://www.datacamp.com/community/tutorials/r-data-import-tutorial)
 
-
-
-<br/><br/>
-
-**For the next session, please install**: *tidyverse*. `tidyverse` is a collection of very popular R packages that are used in everyday data analysis.
 
 
 <br/><br/>
