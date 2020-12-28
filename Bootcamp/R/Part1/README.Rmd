@@ -12,7 +12,7 @@ body{ /* Normal  */
   font-size: 12px;
 }
 td {  /* Table  */
-  font-size: 8px;
+  font-size: 10px;
 }
 code.r{ /* Code block */
     font-size: 12px;
@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE, class.source="bg-success")
 ```
 
 
-## R Track: Part 1
+## R Track: Part 1 - Introduction to R
 
 This Bootcamp will teach you how to analyze a dataset using R programming language.
 We will go over:
@@ -185,3 +185,214 @@ Use two question marks, if you do not know function name and you search for a to
 
 #### **Exercise**
 Find help topics for *working directory* phrase. From the resulting list select the function that comes from *base* package. Read the description of the function and execute it in your console window. Do not forget parenthesis. 
+
+
+<br/><br/>
+
+### R Data Structures
+
+R has five common data structures:<br/>
+
+Homogeneous:
+
+- vector
+- matrix/array
+
+Heterogeneous
+
+- data frame
+- list
+
+The following functions help to explore data structures:<br>
+`typeof()`, `length()`, `class()`, `str()`, `summary()`
+<br/><br/>
+
+### Vectors
+A vector is a collection of elements of the same type (mode). Most commonly vectors are *character*, *logical*, *integer*, or *numeric*. We can use function `c()` to define a vector:
+
+```{r}
+# numeric vector
+x_num <- c(5.6, 3.2, 7.8, 9.1)
+
+# character vector
+x_char <- c("copper", "iron", "silver", "lead", "gold" )
+
+# logical vector
+x_log <- c(TRUE, FALSE, FALSE, TRUE)
+
+```
+
+<br/>
+
+#### **Exercise**
+Define numeric, character, and logical vectors. Use 
+`typeof()`, `length()`, `class()`, `str()`, `summary()` functions to explore these vectors. Compare the outputs of `summary()` function for numeric, character and logical vectors.
+<br/><br/>
+
+### Appending elements to a vector
+
+We can add more elements to a vector using the same `c()` function:
+```{r}
+x_num <- c(-1.7, x_num, -2.4)
+x_num
+```
+<br/><br/>
+
+### Vectors from a Sequence
+Using `:` operator we can create a sequence of values (an integer vector):
+```{r}
+( seq1 <- 1:50 )
+( seq2 <- 25:4 )
+```
+**Note:** Both starting and ending values are included in the resulting vector.
+<br/>
+
+#### **Exercise**
+Search for a help topic for function `mean()` ( `?mean` ). Using this function calculate an average value of any numeric vector you defined so far.
+
+Try other functions.
+
+For numeric vectors:<br/>
+`max()`, `min()`, `median()`, `sd()`, `sum()`
+
+For character vectors:<br/>
+`nchar()`, `strtrim()`, `substring()`
+
+For logical vectors:<br/>
+`sum()`, `which()`
+<br/><br/>
+
+### Operations between vectors
+We can perform operations on one, two or more vectors:
+
+```{r}
+# define a vector with distances in inches
+heights <- c(65, 69, 60, 71, 66, 68, 64)
+
+# convert to centimeters
+heights * 2.54
+```
+
+
+
+
+```{r}
+# define two vectors (heights in inches and weight in pounds)
+heights <- c(65, 69, 60, 71, 66, 68, 64)
+weights <- c(130, 142, 125, 180, 179, 154, 146)
+
+# Calculate BMI
+( bmi <- (weights/heights^2) * 703 )
+```
+
+
+<br/><br/>
+
+### Vector slicing
+R uses square brackets `[]` to slice/subset vectors:
+```{r}
+# extract second value from a vector
+x_num[2]
+
+# get all elements starting from second and ending with fourth
+x_num[2:4]
+
+#get first and fourth element
+x_num[ c(1,4) ]
+
+```
+
+<br/><br/>
+
+### Missing values
+
+Missing values in R are represented with the `NA` string. It can be used for all types of vectors:
+
+```{r}
+# numeric vector
+x_num <- c(5.6, 3.2, NA, 7.8, 9.1, NA)
+
+# character vector
+x_char <- c("copper", NA, "iron", "silver", "lead", NA, "gold" )
+
+# logical vector
+x_log <- c(TRUE, NA, FALSE, FALSE, NA, TRUE)
+
+```
+
+<br/><br/>
+Functions `is.na()` and `anyNA()` help to identify if there are any missing value and if so, which one:
+```{r}
+# Check if there are any missing values
+anyNA(x_num)
+
+# Check each element in a vector to see which elements are missing'
+is.na(x_num)
+
+# Identify indecies of the missing elements
+which( is.na(x_num) )
+
+# Check how many missing elements
+sum( is.na(x_num) )
+```
+
+<br/><br/>
+
+Almost any computation involving a missing value will return a missing value. 
+```{r}
+# Calculate mean value of vector x_num
+mean(x_num)
+```
+
+<br/><br/>
+Many R functions have a special argument, that allows to remove all missing values:
+```{r}
+# Calculate mean value of vector x_num ignoring missing values
+mean(x, na.rm=TRUE)
+```
+
+<br/>
+
+#### **Exercise**
+Apply `summary()` function to any numeric vector you defined that has missing values. Examine the output. 
+<br/><br/>
+
+### Factors
+
+Factors in R are used to store categorical data. When R vectors are converted to factors, each unique value is assigned an integer value (label). By default these integer labels are assigned alphabetically:
+```{r}
+# define a vector:
+ans <- c("yes", "no", "no", "yes", "yes", "yes")
+summary(ans)
+
+# convert vector to factor:
+ans <- factor(ans)
+summary(ans)
+```
+
+<br/>
+Sometimes, categorical data are coded as integer values (for example 1-for female, 2-for male). It makes sense to convert them to factors and assign appropriate labels:
+```{r}
+# gender defined with integer values
+gender <- c(1, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 2)
+summary (gender)
+
+# convert vector to factor and assign appropriate labels
+gender <- factor( gender, labels = c("female", "male"))
+summary(gender)
+```
+
+
+### Reading Data
+
+R can read data written in many different formats. Today we will read basic CSV file.
+You can see the following link to see examples of reading data saved in different formats:
+
+```{r}
+# Read CSV file
+
+
+# convert vector to factor and assign appropriate labels
+gender <- factor( gender, labels = c("female", "male"))
+summary(gender)
+```
