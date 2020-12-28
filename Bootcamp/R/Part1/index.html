@@ -1657,8 +1657,8 @@ pre { /* Code block - determines code spacing between lines */
 }
 </style>
 <p><br><br></p>
-<div id="r-track-part-1" class="section level3">
-<h3>R Track: Part 1</h3>
+<div id="r-track-part-1" class="section level2">
+<h2>R Track: Part 1</h2>
 <p>This Bootcamp will teach you how to analyze a dataset using R programming language. We will go over:</p>
 <ul>
 <li>Import your data into R</li>
@@ -1668,28 +1668,52 @@ pre { /* Code block - determines code spacing between lines */
 <li>Run basic statistical analysis</li>
 <li>Communicate results</li>
 </ul>
-<div id="basic-arithmetic" class="section level4">
-<h4>Basic Arithmetic</h4>
+<div id="basic-arithmetic" class="section level3">
+<h3>Basic Arithmetic</h3>
 <p>Let’s try to perform basic arithmetic operations, i.e:</p>
 <pre class="r bg-success"><code>4 + 7</code></pre>
 <pre><code>## [1] 11</code></pre>
 <p>We can also use brackets and basic math functions:</p>
 <pre class="r bg-success"><code>3.5 + (7 - 9)/5.8 - log(1.2)</code></pre>
 <pre><code>## [1] 2.972851</code></pre>
+<p><br /><br /></p>
 </div>
-<div id="assigning-values-to-a-variable" class="section level4">
-<h4>Assigning values to a variable</h4>
+<div id="assigning-values-to-a-variable" class="section level3">
+<h3>Assigning values to a variable</h3>
 <p>R uses an arrow sign to assign a value to a variable:</p>
 <pre class="r bg-success"><code>x &lt;- 2.71</code></pre>
+<p>We can read this line as <em>2.71 is assigned to x</em>. In many cases you can use equal sign <code>=</code> as well, but in R it is a good practice to use arrow <code>&lt;-</code> for assignments and equal sign <code>=</code> to specify the values of arguments in functions. <br /></p>
+<div id="note" class="section level4">
+<h4><em>Note:</em></h4>
+<p>Object names in R can use letters, digits, dots, and underscores. Spaces and other special characters cannot be used to name R objects. <br /></p>
+<pre class="r bg-success"><code># Assign a value to a variable
+x &lt;- 2.71
+
+# Print out the value of a variable in the console window:
+print(x)
+
+# Another way to print out the value of a variable:
+x
+
+# Assign a value to a variable and prints its value on the console
+( x &lt;- 2.71 )</code></pre>
 </div>
-<div id="data-types-in-r" class="section level4">
-<h4>Data types in R</h4>
+<div id="exercise" class="section level4">
+<h4><strong>Exercise</strong></h4>
+<p>Assign numeric values to variables <code>a</code> and <code>b</code> and then calculate <code>a + b</code>, <code>a * b</code>, <code>a - b</code>, and <code>a /b</code>.</p>
+<p><br /><br /></p>
+</div>
+</div>
+<div id="data-types-in-r" class="section level3">
+<h3>Data types in R</h3>
+<p>Objects in R can have different types.</p>
 <p>Basic Data types in R:</p>
 <ul>
-<li>Numeric</li>
-<li>Integer</li>
-<li>Logical</li>
-<li>Character</li>
+<li><strong>Numeric</strong> (real numbers)</li>
+<li><strong>Integer</strong> (whole numbers)</li>
+<li><strong>Logical</strong> (TRUE/FALSE)</li>
+<li><strong>Character</strong> (strings)</li>
+<li><strong>Complex</strong></li>
 </ul>
 <p>Numeric is the default data type for numbers in R:</p>
 <pre class="r bg-success"><code>x &lt;- 5.24
@@ -1710,6 +1734,41 @@ class(ans)</code></pre>
 <pre><code>## [1] &quot;logical&quot;</code></pre>
 <p>The character data type variables store single characters or strings. Double or single commas can be used to define a character value:</p>
 <pre class="r bg-success"><code>my.name &lt;- &quot;Katia Bulekova&quot;</code></pre>
+<p><br /><br /></p>
+</div>
+<div id="r-functions" class="section level3">
+<h3>R Functions</h3>
+<p>As many other languages, R has built-in functions, i.e <code>sqrt()</code>, <code>log()</code>, <code>round()</code>, etc. Many other functions are defined in R packages that you can install (we will do it a little later.)</p>
+<p>Functions can have zero, one, or more arguments. Some arguments have <em>default</em> values:</p>
+<pre class="r bg-success"><code># List function arguments
+args(round)</code></pre>
+<pre><code>## function (x, digits = 0) 
+## NULL</code></pre>
+<p>The argument <em>digits</em> in the <code>round()</code> function has a default value 0. So if we call this function and do not use the argument <em>digits</em>, the value of <code>x</code> will be rounded to the nearest whole number. If we want to round <code>x</code> to one decimal place, we need to set <em>digits</em> to one:</p>
+<pre class="r bg-success"><code># Round to one decimal place
+round(x, digits=1)</code></pre>
+<pre class="r bg-success"><code># or simply:
+round(x, 1)</code></pre>
+<pre><code>## [1] 5.2</code></pre>
+<div id="note-1" class="section level4">
+<h4><em>Note:</em></h4>
+<p>It is recommended to specify the argument names as it makes your code easier to understand and share with others. When you name arguments, their order does not matter! <br /><br /></p>
+</div>
+</div>
+<div id="r-help" class="section level3">
+<h3>R Help</h3>
+<p>R comes with comprehensive help system.</p>
+<p>Use one question mark in front of the function name if you know function’s name.</p>
+<p>Use two question marks, if you do not know function name and you search for a topic. If your search includes more than one word, use quotes:</p>
+<pre class="r bg-success"><code># Search for a help topic for round() function:
+?round
+
+# List all R help topics that include &quot;standard deviation&quot; phrase:
+??&quot;standard deviation&quot;</code></pre>
+<div id="exercise-1" class="section level4">
+<h4><strong>Exercise</strong></h4>
+<p>Find help for <em>working directory</em> phrase. From the resulting list select the function that comes from <em>base</em> package. Read the description of the function and execute it in your console window. Do not forget parenthesis.</p>
+</div>
 </div>
 </div>
 
