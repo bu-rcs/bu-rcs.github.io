@@ -20,7 +20,11 @@ code.r{ /* Code block */
 }
 pre { /* Code block - determines code spacing between lines */
     font-size: 12px;
-     
+}
+
+.more {
+  color: #580000;
+  font-style: italic;
 }
 </style>
 
@@ -256,7 +260,7 @@ For numeric vectors:<br/>
 `max()`, `min()`, `median()`, `sd()`, `sum()`
 
 For character vectors:<br/>
-`nchar()`, `strtrim()`, `substring()`
+`nchar()`, `unique()`, `strtrim()`, `substring()`
 
 For logical vectors:<br/>
 `sum()`, `which()`
@@ -382,17 +386,130 @@ gender <- factor( gender, labels = c("female", "male"))
 summary(gender)
 ```
 
+<br/><br/>
 
 ### Reading Data
 
 R can read data written in many different formats. Today we will read basic CSV file.
 You can see the following link to see examples of reading data saved in different formats:
 
-```{r}
+We will work with a simple CSV file today. 
+
+1. In your RStudio Console window execute `pwd()` command to find your current working directory
+2. Save [NE_HealthData.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_HealthData.csv) file in your working directory
+
+```{r, eval=FALSE}
 # Read CSV file
-
-
-# convert vector to factor and assign appropriate labels
-gender <- factor( gender, labels = c("female", "male"))
-summary(gender)
+NE.health <- read.csv("NE_HealthData.csv")
 ```
+```{r, echo=FALSE}
+# Read CSV file
+NE.health <- read.csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_HealthData.csv")
+```
+
+<br/>
+There are a number of functions in R that can be used for the exploration of the imported datasets:
+
+- `View(x)` - view imported data
+- `names(x)` - list column names
+- `head(x)` - print first 6 records
+- `tail(x)` - print last 6 records
+- `summary(x)` - print summary of each column in the dataset
+- `str(x)` - print structure of the object
+
+```{r}
+str(NE.health)
+```
+
+**Note:** R does not allow special characters (like % or a space character) in column names, so `read.csv()` function changed *%* on `X` and spaces on period characters. Later we will learn how to rename columns (if we want to.)
+
+<br/><br/>
+
+### Data Frames
+
+Data frames in R are used for storing data tables - where each column is a vector and each row is an observation. All columns in data.frames have the same length.
+
+To extract columns from a data frame use a dollar sign `$`:
+```{r}
+unique( NE.health$State)
+```
+
+<br/><br/>
+Since each column in a data frame is a vector, we can apply functions on them:
+```{r}
+max( NE.health$X..Smokers)
+```
+
+<br/>
+
+#### **Exercise**
+
+1. Use `length()` and `unique()` functions to *State* column to find how many Stated are included in this dataset
+2. using `min()`, `max()`, and `mean()` functions, find minimum, maximum and average values for the column containing High School Graduation Rate
+3. Use `summary()` function to get the same minimum, maximum and average values as in 2.
+
+<br/><br/>
+
+### Slicing Data Frames
+
+```{r}
+#get third row
+NE.health[3,]
+
+#get third column
+NE.health[,3]
+
+
+#get first seven rows and second, forth, and fifth columns
+NE.health[ 1:7, c(2,4,5) ]
+
+```
+
+
+
+<br/><br/>
+
+### Installing R packages
+
+R packages are collections of functions and data sets developed by the community of researchers and programmers. 
+There are two official R repositories: [CRAN](https://cran.r-project.org/) and [Bioconductor](https://www.bioconductor.org/).
+The first one contains packages applicable to many research areas, while the second one is dedicated to the functions and datasets related to high-throughput genomic data.
+
+[CRAN Task Views](https://cran.r-project.org/web/views/) allow you to browse packages by topic and provide tools to automatically install all packages for special areas of interest. 
+
+To install packages from the  [CRAN](https://cran.r-project.org/), use `install.packages()` function:
+```{r, eval=FALSE}
+install.packages("readr")
+```
+
+In RStudio, the list of installed packages are available in the lower right window under *Packages tab*.
+
+<h4 class="more">Read more:</h4>
+
+- [R Package: A Beginner's Guide](https://www.datacamp.com/community/tutorials/r-packages-guide)
+- [Install Bioconductor Packages](https://www.bioconductor.org/install/)
+- [Factors in R](https://data-flair.training/blogs/r-factor-functions/)
+- [R Data Import and Export](https://cran.r-project.org/doc/manuals/r-release/R-data.html)
+- [More on R Data Import and Export](https://www.datacamp.com/community/tutorials/r-data-import-tutorial)
+
+
+
+<br/><br/>
+
+**For the next session, please install**: *tidyverse*. `tidyverse` is a collection of very popular R packages that are used in everyday data analysis.
+
+
+<br/><br/>
+
+### Homework (optional)
+
+1. Read [NE_DemographicsData.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv)
+2. List column names, print the structure of the data frame. How many columns and how many rows are there?
+3. Use `summary()` and other functions to explore the imported data frame
+4. Which column(s) have missing values?
+5. What is the minimum value of *Life Expectancy* column?
+6. How many different county names are in the County column?
+7. Calculate the total population in New England (use *Population* column)
+
+
+<br/><br/>

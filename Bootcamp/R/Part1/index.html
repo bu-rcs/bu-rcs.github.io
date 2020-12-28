@@ -1653,7 +1653,11 @@ code.r{ /* Code block */
 }
 pre { /* Code block - determines code spacing between lines */
     font-size: 12px;
-     
+}
+
+.more {
+  color: #580000;
+  font-style: italic;
 }
 </style>
 <p><br><br></p>
@@ -1825,7 +1829,7 @@ x_num</code></pre>
 <p>Search for a help topic for function <code>mean()</code> ( <code>?mean</code> ). Using this function calculate an average value of any numeric vector you defined so far.</p>
 <p>Try other functions.</p>
 <p>For numeric vectors:<br /> <code>max()</code>, <code>min()</code>, <code>median()</code>, <code>sd()</code>, <code>sum()</code></p>
-<p>For character vectors:<br /> <code>nchar()</code>, <code>strtrim()</code>, <code>substring()</code></p>
+<p>For character vectors:<br /> <code>nchar()</code>, <code>unique()</code>, <code>strtrim()</code>, <code>substring()</code></p>
 <p>For logical vectors:<br /> <code>sum()</code>, <code>which()</code> <br /><br /></p>
 </div>
 </div>
@@ -1924,18 +1928,136 @@ gender &lt;- factor( gender, labels = c(&quot;female&quot;, &quot;male&quot;))
 summary(gender)</code></pre>
 <pre><code>## female   male 
 ##      5      7</code></pre>
+<p><br /><br /></p>
 </div>
 <div id="reading-data" class="section level3">
 <h3>Reading Data</h3>
 <p>R can read data written in many different formats. Today we will read basic CSV file. You can see the following link to see examples of reading data saved in different formats:</p>
+<p>We will work with a simple CSV file today.</p>
+<ol style="list-style-type: decimal">
+<li>In your RStudio Console window execute <code>pwd()</code> command to find your current working directory</li>
+<li>Save <a href="https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_HealthData.csv">NE_HealthData.csv</a> file in your working directory</li>
+</ol>
 <pre class="r bg-success"><code># Read CSV file
-
-
-# convert vector to factor and assign appropriate labels
-gender &lt;- factor( gender, labels = c(&quot;female&quot;, &quot;male&quot;))
-summary(gender)</code></pre>
-<pre><code>## female   male 
-##      5      7</code></pre>
+NE.health &lt;- read.csv(&quot;NE_HealthData.csv&quot;)</code></pre>
+<p><br /> There are a number of functions in R that can be used for the exploration of the imported datasets:</p>
+<ul>
+<li><code>View(x)</code> - view imported data</li>
+<li><code>names(x)</code> - list column names</li>
+<li><code>head(x)</code> - print first 6 records</li>
+<li><code>tail(x)</code> - print last 6 records</li>
+<li><code>summary(x)</code> - print summary of each column in the dataset</li>
+<li><code>str(x)</code> - print structure of the object</li>
+</ul>
+<pre class="r bg-success"><code>str(NE.health)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    73 obs. of  15 variables:
+##  $ FIPS                                    : int  9000 9001 9003 9005 9007 9009 9011 9013 9015 23000 ...
+##  $ State                                   : chr  &quot;Connecticut&quot; &quot;Connecticut&quot; &quot;Connecticut&quot; &quot;Connecticut&quot; ...
+##  $ County                                  : chr  NA &quot;Fairfield&quot; &quot;Hartford&quot; &quot;Litchfield&quot; ...
+##  $ X..Fair.or.Poor.Health                  : num  13.8 10.6 13 10.7 10.4 ...
+##  $ X..Smokers                              : num  12.7 10.2 11.4 12.1 11.3 ...
+##  $ X..Adults.with.Obesity                  : num  25.8 21.3 26.2 27.7 25.5 28.1 29.6 24.9 30.3 29.9 ...
+##  $ X..Physically.Inactive                  : num  20.4 17.7 21.6 20.8 19.4 21.7 20.9 19.1 23 21.6 ...
+##  $ X..With.Access.to.Exercise.Opportunities: num  94 96.8 96.8 82.9 96.8 ...
+##  $ X..Excessive.Drinking                   : num  17.1 19.4 15.7 17.6 19.1 ...
+##  $ High.School.Graduation.Rate             : num  88 90.4 83.8 88.8 96.3 ...
+##  $ X..Some.College                         : num  68.9 70.9 69.5 68.1 76.2 ...
+##  $ X..Children.in.Poverty                  : num  13.8 12.7 15.5 8.1 8.1 16.7 12.5 6.4 14.8 14.8 ...
+##  $ X..Severe.Housing.Problems              : num  18.1 21.3 16.8 14.7 14 ...
+##  $ X..Drive.Alone.to.Work                  : num  78.2 72.3 81.1 83.9 81.6 ...
+##  $ X..Long.Commute...Drives.Alone          : num  33.7 35.4 29.4 39.8 40.5 33 28.6 43.5 38.5 32.7 ...</code></pre>
+<p><strong>Note:</strong> R does not allow special characters (like % or a space character) in column names, so <code>read.csv()</code> function changed <em>%</em> on <code>X</code> and spaces on period characters. Later we will learn how to rename columns (if we want to.)</p>
+<p><br /><br /></p>
+</div>
+<div id="data-frames" class="section level3">
+<h3>Data Frames</h3>
+<p>Data frames in R are used for storing data tables - where each column is a vector and each row is an observation. All columns in data.frames have the same length.</p>
+<p>To extract columns from a data frame use a dollar sign <code>$</code>:</p>
+<pre class="r bg-success"><code>unique( NE.health$State)</code></pre>
+<pre><code>## [1] &quot;Connecticut&quot;   &quot;Maine&quot;         &quot;Massachusetts&quot; &quot;New Hampshire&quot;
+## [5] &quot;Rhode Island&quot;  &quot;Vermont&quot;</code></pre>
+<p><br /><br /> Since each column in a data frame is a vector, we can apply functions on them:</p>
+<pre class="r bg-success"><code>max( NE.health$X..Smokers)</code></pre>
+<pre><code>## [1] 19.0945</code></pre>
+<p><br /></p>
+<div id="exercise-5" class="section level4">
+<h4><strong>Exercise</strong></h4>
+<ol style="list-style-type: decimal">
+<li>Use <code>length()</code> and <code>unique()</code> functions to <em>State</em> column to find how many Stated are included in this dataset</li>
+<li>using <code>min()</code>, <code>max()</code>, and <code>mean()</code> functions, find minimum, maximum and average values for the column containing High School Graduation Rate</li>
+<li>Use <code>summary()</code> function to get the same minimum, maximum and average values as in 2.</li>
+</ol>
+<p><br /><br /></p>
+</div>
+</div>
+<div id="slicing-data-frames" class="section level3">
+<h3>Slicing Data Frames</h3>
+<pre class="r bg-success"><code>#get third row
+NE.health[3,]</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["FIPS"],"name":[1],"type":["int"],"align":["right"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["X..Fair.or.Poor.Health"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["X..Smokers"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["X..Adults.with.Obesity"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["X..Physically.Inactive"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["X..With.Access.to.Exercise.Opportunities"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["X..Excessive.Drinking"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["High.School.Graduation.Rate"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["X..Some.College"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["X..Children.in.Poverty"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["X..Severe.Housing.Problems"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["X..Drive.Alone.to.Work"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["X..Long.Commute...Drives.Alone"],"name":[15],"type":["dbl"],"align":["right"]}],"data":[{"1":"9003","2":"Connecticut","3":"Hartford","4":"13.04422","5":"11.35625","6":"26.2","7":"21.6","8":"96.84132","9":"15.66","10":"83.81509","11":"69.47767","12":"15.5","13":"16.84308","14":"81.10922","15":"29.4","_rn_":"3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r bg-success"><code>#get third column
+NE.health[,3]</code></pre>
+<pre><code>##  [1] NA             &quot;Fairfield&quot;    &quot;Hartford&quot;     &quot;Litchfield&quot;   &quot;Middlesex&quot;   
+##  [6] &quot;New Haven&quot;    &quot;New London&quot;   &quot;Tolland&quot;      &quot;Windham&quot;      NA            
+## [11] &quot;Androscoggin&quot; &quot;Aroostook&quot;    &quot;Cumberland&quot;   &quot;Franklin&quot;     &quot;Hancock&quot;     
+## [16] &quot;Kennebec&quot;     &quot;Knox&quot;         &quot;Lincoln&quot;      &quot;Oxford&quot;       &quot;Penobscot&quot;   
+## [21] &quot;Piscataquis&quot;  &quot;Sagadahoc&quot;    &quot;Somerset&quot;     &quot;Waldo&quot;        &quot;Washington&quot;  
+## [26] &quot;York&quot;         NA             &quot;Barnstable&quot;   &quot;Berkshire&quot;    &quot;Bristol&quot;     
+## [31] &quot;Dukes&quot;        &quot;Essex&quot;        &quot;Franklin&quot;     &quot;Hampden&quot;      &quot;Hampshire&quot;   
+## [36] &quot;Middlesex&quot;    &quot;Nantucket&quot;    &quot;Norfolk&quot;      &quot;Plymouth&quot;     &quot;Suffolk&quot;     
+## [41] &quot;Worcester&quot;    NA             &quot;Belknap&quot;      &quot;Carroll&quot;      &quot;Cheshire&quot;    
+## [46] &quot;Coos&quot;         &quot;Grafton&quot;      &quot;Hillsborough&quot; &quot;Merrimack&quot;    &quot;Rockingham&quot;  
+## [51] &quot;Strafford&quot;    &quot;Sullivan&quot;     NA             &quot;Bristol&quot;      &quot;Kent&quot;        
+## [56] &quot;Newport&quot;      &quot;Providence&quot;   &quot;Washington&quot;   NA             &quot;Addison&quot;     
+## [61] &quot;Bennington&quot;   &quot;Caledonia&quot;    &quot;Chittenden&quot;   &quot;Essex&quot;        &quot;Franklin&quot;    
+## [66] &quot;Grand Isle&quot;   &quot;Lamoille&quot;     &quot;Orange&quot;       &quot;Orleans&quot;      &quot;Rutland&quot;     
+## [71] &quot;Washington&quot;   &quot;Windham&quot;      &quot;Windsor&quot;</code></pre>
+<pre class="r bg-success"><code>#get first seven rows and second, forth, and fifth columns
+NE.health[ 1:7, c(2,4,5) ]</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["State"],"name":[1],"type":["chr"],"align":["left"]},{"label":["X..Fair.or.Poor.Health"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["X..Smokers"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Connecticut","2":"13.80071","3":"12.73098","_rn_":"1"},{"1":"Connecticut","2":"10.59603","3":"10.15790","_rn_":"2"},{"1":"Connecticut","2":"13.04422","3":"11.35625","_rn_":"3"},{"1":"Connecticut","2":"10.67878","3":"12.06314","_rn_":"4"},{"1":"Connecticut","2":"10.37722","3":"11.31644","_rn_":"5"},{"1":"Connecticut","2":"14.44271","3":"12.84395","_rn_":"6"},{"1":"Connecticut","2":"11.54628","3":"12.35084","_rn_":"7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br /><br /></p>
+</div>
+<div id="installing-r-packages" class="section level3">
+<h3>Installing R packages</h3>
+<p>R packages are collections of functions and data sets developed by the community of researchers and programmers. There are two official R repositories: <a href="https://cran.r-project.org/">CRAN</a> and <a href="https://www.bioconductor.org/">Bioconductor</a>. The first one contains packages applicable to many research areas, while the second one is dedicated to the functions and datasets related to high-throughput genomic data.</p>
+<p><a href="https://cran.r-project.org/web/views/">CRAN Task Views</a> allow you to browse packages by topic and provide tools to automatically install all packages for special areas of interest.</p>
+<p>To install packages from the <a href="https://cran.r-project.org/">CRAN</a>, use <code>install.packages()</code> function:</p>
+<pre class="r bg-success"><code>install.packages(&quot;readr&quot;)</code></pre>
+<p>In RStudio, the list of installed packages are available in the lower right window under <em>Packages tab</em>.</p>
+<h4 class="more">
+Read more:
+</h4>
+<ul>
+<li><a href="https://www.datacamp.com/community/tutorials/r-packages-guide">R Package: A Beginner’s Guide</a></li>
+<li><a href="https://www.bioconductor.org/install/">Install Bioconductor Packages</a></li>
+<li><a href="https://data-flair.training/blogs/r-factor-functions/">Factors in R</a></li>
+<li><a href="https://cran.r-project.org/doc/manuals/r-release/R-data.html">R Data Import and Export</a></li>
+<li><a href="https://www.datacamp.com/community/tutorials/r-data-import-tutorial">More on R Data Import and Export</a></li>
+</ul>
+<p><br /><br /></p>
+<p><strong>For the next session, please install</strong>: <em>tidyverse</em>. <code>tidyverse</code> is a collection of very popular R packages that are used in everyday data analysis.</p>
+<p><br /><br /></p>
+</div>
+<div id="homework-optional" class="section level3">
+<h3>Homework (optional)</h3>
+<ol style="list-style-type: decimal">
+<li>Read <a href="https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv">NE_DemographicsData.csv</a></li>
+<li>List column names, print the structure of the data frame. How many columns and how many rows are there?</li>
+<li>Use <code>summary()</code> and other functions to explore the imported data frame</li>
+<li>Which column(s) have missing values?</li>
+<li>What is the minimum value of <em>Life Expectancy</em> column?</li>
+<li>How many different county names are in the County column?</li>
+<li>Calculate the total population in New England (use <em>Population</em> column)</li>
+</ol>
+<p><br /><br /></p>
 </div>
 </div>
 
