@@ -1,6 +1,17 @@
 # Research Computing Bootcamp
 ## R Track
 
+This Bootcamp will teach you how to analyze a dataset using R programming language.
+By the end of R track you will know how to :
+
+- Import your data into R
+- Clean (tidy) data
+- Transform Data
+- Explore the data using visualization tools
+- Run basic statistical analysis
+- Communicate results
+
+
 Throughout the Bootcamp we will be using Rstudio.
 
 #### Part 1: Introduction to R
