@@ -1,0 +1,119 @@
+---
+title: "Research Computing Bootcamp"
+author: "Boston University"
+output:
+  html_document:
+    df_print: paged
+---
+
+<style type="text/css">
+
+body{ /* Normal  */
+  font-size: 12px;
+}
+td {  /* Table  */
+  font-size: 10px;
+}
+code.r{ /* Code block */
+    font-size: 12px;
+    background-color: #FAEAEA; 
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 12px;
+}
+
+.more {
+  color: #580000;
+  font-style: italic;
+}
+</style>
+
+<br><br>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, class.source="bg-success")
+```
+
+## R Track: Part 3 - Data Visualization in R
+
+
+Examining complex patterns and correlations in data requires visualization to present the results in a digestible form. 
+Part Three presents various ways to plot and visualize data. 
+Different plotting techniques and formats are presented, along with various ways to format and configure their display and appearance.
+
+R plotting libraries are designed to produce high-quality graphics.
+
+Various types of plots allow to generate plots of:
+
+- a single variable
+- two variables
+- multiple variables
+- networks
+- time series
+- many other special plots
+
+
+First, we need to load the packages that we will use for this workshop"
+```{r, warning=FALSE, message=FALSE}
+library(readr)
+library(ggplot2)
+library(dplyr)
+```
+
+<br/><br/>
+
+Let's read the two dataset we explored in the previous workshop and merg them together:
+
+
+```{r, warning=FALSE, message=FALSE}
+NE.health <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_HealthData.csv") %>%
+  rename(poor_health = "% Fair or Poor Health",
+         p_smokers = "% Smokers",
+         p_obese = "% Adults with Obesity",
+         p_inactive = "% Physically Inactive",
+         p_college="% Some College",
+         p_housing_problems = "% Severe Housing Problems") %>%
+  select(State, County, poor_health : p_inactive, p_college, p_housing_problems) %>%
+  filter( !is.na(County) )
+  
+  
+  
+NE.demogr <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv") %>%
+  rename( life_exp = "Life Expectancy", 
+          ph_distress = "% Frequent Physical Distress",
+          limit_healthy_food = "% Limited Access to Healthy Foods",
+          house_income = "Median Household Income",
+          N_black = "# Black",
+          N_rural = "# Rural") %>%
+  select(State : house_income, N_black, N_rural) %>%
+  filter( !is.na(County) )
+
+
+NE.data <- inner_join( NE.health, NE.demogr, by = c("State", "County"))
+glimpse (NE.data)    # similar to str() but slightly different format of output
+
+
+```
+
+<br/><br/>
+
+## Using R Graphics for data exploration
+
+
+<br/><br/>
+
+<h4 class="more">Read more:</h4>
+
+- [ggplot2 tutorial](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html)
+- [ggplot2 cheat sheet ](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
+- [R graph gallery](https://www.r-graph-gallery.com/)
+- [ggplot2 extensions](https://exts.ggplot2.tidyverse.org/gallery/)
+
+
+
+<br/><br/>
+
+### Homework 
+
+
+<br/><br/>
