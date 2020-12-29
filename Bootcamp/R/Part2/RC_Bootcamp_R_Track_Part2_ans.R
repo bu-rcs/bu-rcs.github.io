@@ -52,7 +52,7 @@ NE.health <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootc
 # https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv
 
 # use read_csv() function to read it. Save results in a variable with a name demogr
-# demogr <- read_csv( . . . )
+demogr <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv")
 
   
 
@@ -98,6 +98,10 @@ print( NE.health, n = 12, width = Inf )
 #### **Exercise**
 # Use head(), str(), names(), summary(), and View() functions 
 # to explore demogr dataset. 
+head(demogr)
+str(demogr)
+names(demogr)
+summary(demogr)
 
 
 
@@ -166,7 +170,10 @@ names( NE.health_1 )
 # Name these columns *life_exp*, *ph_distress*, *house_inc*, *p_female*.
 # Save your new dataset with a name *demogr1*.
 
-# demogr1 <- rename(demogr, . . . )
+demogr1 <- rename(demogr, life_exp = "Life Expectancy", 
+                  ph_distress = "% Frequent Physical Distress",
+                  house_inc = "Median Household Income",
+                  p_female = "% Female" )
    
 
 
@@ -194,8 +201,9 @@ str(NE.health_2)
 # *ph_distress*, *house_inc*, *Population*, and *p_female*.
 # Save result in a data frame with a name *demogr2*
   
-# demogr2 <- select(demogr1, . . . )
-# str(demogr2)
+demogr2 <- select(demogr1, FIPS, State, County, life_exp, ph_distress, 
+                  house_inc, Population, p_female)
+str(demogr2)
    
 
 
@@ -259,7 +267,8 @@ head(NE.health_subset2)
 # household income (*house_inc* ) is less than 75K. Store the result in a data frame
 # called demogr_sub.
 
-# demogr_sub <- filter ( demogr2, . . . )
+demogr_sub <- filter ( demogr2, 
+                       !is.na(County) & Population > 50000 & house_inc < 75000 )
    
 
 
@@ -287,7 +296,7 @@ head(NE.health_4)
 # Use  round()  function to round the result of calculation to the nearest whole number.
 # Name the new column *n_female* and the resulting dataset demogr3.
 
-# demogr3 <- mutate ( demogr2, . . . )
+demogr3 <- mutate ( demogr2, n_female = round (Population * p_female / 100) )
    
 
 
@@ -318,7 +327,7 @@ head(NE.health_6)
 # Sort *demogr3* dataset using *life_exp* variable starting from the hiest value.
 # Store result in a data frame called *demogr4*. Use  head()  function to find 
 # top six counties in New England with the highest life expectancy. 
-# demogr4 <- arrange ( demogr3, . . .  )
+demogr4 <- arrange ( demogr3, desc( life_exp ) )
    
 
 
@@ -388,12 +397,14 @@ head(MA.health)
 
 
 
-# MA.demogr <- demogr %>%
-#   rename( . . . ) %>%
-#   select( . . . ) %>%
-#   filter( . . . ) %>%
-#   arrange( . . .  )
-# print(MA.demogr)   
+MA.demogr <- demogr %>%
+  rename(life_exp = "Life Expectancy", 
+         ph_distress = "% Frequent Physical Distress",
+         house_inc = "Median Household Income") %>%
+  select(FIPS, State, County, life_exp, ph_distress, house_inc) %>%
+  filter( ! is.na(County) & State == "Massachusetts") %>%
+  arrange( desc(life_exp) )
+print(MA.demogr)   
 
 
   
@@ -422,8 +433,8 @@ MA.health %>% summarise ( N = n(),
   
 # For the *MA.demogr* dataset calculate mean values for life expectancy and 
 # median household income
-# MA.demogr %>% summarise ( mean_life_exp =  . . .  , 
-#                          median_household = . . . )
+MA.demogr %>% summarise ( mean_life_exp = mean(life_exp), 
+                          median_household = median(house_inc))
    
 
   
@@ -458,11 +469,12 @@ NE.health  %>%
 # For the *demogr* dataset calculate mean values for life expectancy and 
 # median household income for each State
 
-# demogr %>% rename( . . . ) %>%
-#   filter( . . .  ) %>%
-#   group_by( . . . ) %>%
-#   summarise ( mean_life_exp = . . .  , 
-#               median_household =  . . . )
+demogr %>% rename(life_exp = "Life Expectancy", 
+                  house_inc = "Median Household Income") %>%
+  filter( !is.na(County) ) %>%
+  group_by(State) %>%
+  summarise ( mean_life_exp = mean(life_exp), 
+              median_household = median(house_inc))
    
 
   
