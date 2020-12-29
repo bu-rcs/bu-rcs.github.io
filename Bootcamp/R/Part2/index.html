@@ -1709,28 +1709,6 @@ NE.health &lt;- read_csv(&quot;NE_HealthData.csv&quot;)</code></pre>
 <div id="exercise" class="section level4">
 <h4><strong>Exercise</strong></h4>
 <p>Download <a href="https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv">DemographicsData.csv</a> dataset and use <code>read_csv()</code> function to read it. Save results in a variable with a name <code>demogr</code></p>
-<pre><code>## 
-## -- Column specification --------------------------------------------------------------------------------------------------------------
-## cols(
-##   FIPS = col_character(),
-##   State = col_character(),
-##   County = col_character(),
-##   `Life Expectancy` = col_double(),
-##   `% Frequent Physical Distress` = col_double(),
-##   `% Limited Access to Healthy Foods` = col_double(),
-##   `Median Household Income` = col_double(),
-##   `% Homeowners` = col_double(),
-##   `% Severe Housing Cost Burden` = col_double(),
-##   Population = col_double(),
-##   `# Black` = col_double(),
-##   `# American Indian &amp; Alaska Native` = col_double(),
-##   `# Asian` = col_double(),
-##   `# Native Hawaiian/Other Pacific Islander` = col_double(),
-##   `# Hispanic` = col_double(),
-##   `# Non-Hispanic White` = col_double(),
-##   `% Female` = col_double(),
-##   `# Rural` = col_double()
-## )</code></pre>
 <p>As we can see <code>read_csv()</code> function lists the columns it loaded and their types.</p>
 <p>We can use <code>head()</code>, <code>str()</code>, and <code>summary()</code> functions to explore the dataset.</p>
 <pre class="r bg-success"><code># display class of the NE.health object
@@ -2138,6 +2116,10 @@ NE.health  %&gt;%
   </script>
 </div>
 <p><br /><br /></p>
+<div id="exercise-9" class="section level4">
+<h4><strong>Exercise</strong></h4>
+<p>For the <em>demogr</em> dataset calculate mean values for life expectancy and median household income for each State</p>
+<p><br /><br /></p>
 <h4 class="more">
 Read more:
 </h4>
@@ -2147,6 +2129,7 @@ Read more:
 <li><a href="https://r4ds.had.co.nz/transform.html">Data Transformation using dplyr package</a></li>
 </ul>
 <p><br /><br /></p>
+</div>
 </div>
 <div id="homework-optional" class="section level3">
 <h3>Homework (optional)</h3>
