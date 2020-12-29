@@ -75,18 +75,18 @@ NE.health <- read_csv("NE_HealthData.csv")
 NE.health <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_HealthData.csv")
 ```
 
-
+<br/>
 
 #### **Exercise**
 
 Download [DemographicsData.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv) 
 dataset and use `read_csv()` function to read it. Save results in a variable with a name `demogr`
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Read CSV file
 demogr <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_DemographicsData.csv")
 ```
 
-
+<br/><br/>
 
 As we can see `read_csv()` function lists the columns it loaded and their types. 
 
@@ -425,8 +425,6 @@ MA.demogr %>% summarise ( mean_life_exp = mean(life_exp),
 <br/><br/>
 
 
-<br/><br/>
-
 ### *group_by()* - Grouping operator
 
 
@@ -458,6 +456,68 @@ demogr %>% rename(life_exp = "Life Expectancy",
                           median_household = median(house_inc))
 ```
 
+<br/><br/>
+
+
+
+### Merging two datasets
+
+If we have two or more tables of data, we often need to combine them. 
+In this workshop we have two tables *NE.health* and *demogr*. Both tables contain
+useful information, so to better understand the population we need to merge these tables together.
+
+These tables could be merged in two ways: using common column *FIPS* or if it did not exist, we
+could could use *State* and *County* columns.
+
+Package *dplyr* allows to combine two tables in 4 ways:
+
+- `inner_join()` - keeps all observations that are present in both table
+- `left_join()` - keeps all observations in the first table.
+- `right_join()` - keeps all observations in the second table.
+- `full_join()` - keeps all observations in both tables
+
+There are also *filtering* joins:
+
+- `semi_join()` - keeps all observations in the first table that have a match in the second table
+- `anti_join()` - drops all observations in the first table that have a match in the second table
+
+
+Let's see how these joins work with the two data tables we have.
+
+```{r, echo=FALSE, eval=FALSE}
+
+# Use MA.health dataset. Use columns State, County, "% Fair or Poor Health", and
+# "% Physically Inactive"
+# Filter observations where County is missing
+x <- NE.health %>%
+  rename( poor_health = "% Fair or Poor Health", inactive = "% Physically Inactive") %>%
+  select(State, County, poor_health, inactive)
+
+# From the "Demographics" dataset, extract "Life Expectancy", "% Frequent Physical Distress",
+# and "Median Household Income"
+y <- demogr %>%
+  rename (life_exp = "Life Expectancy", ph_distress = "% Frequent Physical Distress", 
+          house_income = "Median Household Income") %>%
+  select( State, County, life_exp, ph_distress, house_income)
+
+
+# We will further modify our tables - we will remove Fairfield County observations
+# from the x table and Hartford County observations from y
+x <- x %>% filter( County != "Fairfield")
+y <- y %>% filter( County != "Hartford")
+
+# Now let's perform left, right, inner and full joins:
+xy_left <- left_join(x, y, by=c("State", "County"))
+xy_right <- right_join(x, y, by=c("State", "County"))
+xy_inner <- inner_join(x, y, by=c("State", "County"))
+xy_full <- full_join(x, y, by=c("State", "County"))
+
+# print first few records of xy_full
+print(xy_full %>% arrange(State, County))
+
+```
+
+
 
 
 <br/><br/>
@@ -467,12 +527,18 @@ demogr %>% rename(life_exp = "Life Expectancy",
 - [readr package chearsheet](https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf)
 - [Useful tips on using read_csv and other functions from readr package ](https://r4ds.had.co.nz/data-import.html)
 - [Data Transformation using dplyr package](https://r4ds.had.co.nz/transform.html)
+- [Merging two tables](https://r4ds.had.co.nz/relational-data.html)
 
 
 
 <br/><br/>
 
-### Homework (optional)
+### Homework 
 
+1. Read [USA_DemographicsData.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/USA_DemographicsData.csv)
+2. Read [us_states_census_regions.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/us_states_census_regions.csv)
+3. Rename columns that we used in this workshop that contain special characters
+4. Join three tables together
+5. Calculate mean *Life Expectancy* and median *Household Income* values per State and per Region
 
 <br/><br/>
