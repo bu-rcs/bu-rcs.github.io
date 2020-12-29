@@ -538,7 +538,7 @@ print(xy_full %>% arrange(State, County))
 1. Read [USA_DemographicsData.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/USA_DemographicsData.csv)
 2. Read [us_states_census_regions.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/us_states_census_regions.csv)
 3. Rename columns that we used in this workshop that contain special characters
-4. Join three tables together
+4. Join two tables together.
 5. Calculate mean *Life Expectancy* and median *Household Income* values per State and per Region
 
 <br/><br/>
