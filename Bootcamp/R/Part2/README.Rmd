@@ -225,9 +225,23 @@ demogr2 <- select(demogr1, FIPS, State, County, life_exp, ph_distress, house_inc
 
 ### *filter()* - subsetting rows using column values
 
+Every first row in this dataset has a missing value for a county.
+This row is used to list overall values for each state. 
+For our analysis we might want to remove these rows:
+
+
 ```{r}
 # select only those observations where percent of smokers is greater than 15%
-NE.health_subset1 <- filter ( NE.health_2, p.smokers > 15 )
+NE.health_3 <- filter ( NE.health_2, !is.na(County) )
+head(NE.health_3)
+```
+
+<br/>
+Sometimes we need to further filter our dataset:
+
+```{r}
+# select only those observations where percent of smokers is greater than 15%
+NE.health_subset1 <- filter ( NE.health_3, p.smokers > 15 )
 head(NE.health_subset1)
 ```
 
@@ -258,12 +272,13 @@ head(NE.health_subset2)
 <br/><br/>
 
 #### **Exercise**
-In *demogr2* data leave only those observations where *Population* is greater than 50K and 
+In *demogr2* data leave only those observations where *County* is not missing, 
+*Population* is greater than 50K and 
 household income (*house_inc* ) is less than 75K. Store the result in a data frame
 called demogr_sub.
 
 ```{r, echo=FALSE}
-demogr_sub <- filter ( demogr2, Population > 50000 &  house_inc < 75000 )
+demogr_sub <- filter ( demogr2, !is.na(County) & Population > 50000 &  house_inc < 75000 )
 ```
 
 
@@ -274,8 +289,8 @@ demogr_sub <- filter ( demogr2, Population > 50000 &  house_inc < 75000 )
 ```{r}
 # Create a new column *both* that is equal TRUE if p.smokers > 15 and
 # p.obese > 33 at the same time
-NE.health_3 <- mutate ( NE.health_2, both = (p.smokers > 15 & p.obese > 30) )
-head(NE.health_3)
+NE.health_4 <- mutate ( NE.health_3, both = (p.smokers > 15 & p.obese > 30) )
+head(NE.health_4)
 ```
 
 
@@ -298,12 +313,12 @@ demogr3 <- mutate ( demogr2, n_female = round (Population * p_female / 100) )
 
 ```{r}
 # Sort by percent of smokers
-NE.health_4 <- arrange ( NE.health_3, p.smokers )
-head(NE.health_4)
+NE.health_5 <- arrange ( NE.health_4, p.smokers )
+head(NE.health_5)
 
 # Sort by percent of obese adults in reverse order
-NE.health_5 <- arrange ( NE.health_3, desc(p.obese) )
-head(NE.health_5)
+NE.health_6 <- arrange ( NE.health_4, desc(p.obese) )
+head(NE.health_6)
 ```
 
 
@@ -392,7 +407,7 @@ MA.demogr <- demogr %>%
                   ph_distress = "% Frequent Physical Distress",
                   house_inc = "Median Household Income") %>%
   select(FIPS, State, County, life_exp, ph_distress, house_inc) %>%
-  filter( State == "Massachusetts") %>%
+  filter( ! is.na(County) & State == "Massachusetts") %>%
   arrange( desc(life_exp) )
 ```
 
@@ -437,6 +452,7 @@ like mutate, arrange, and summarise per group.
 
 NE.health  %>% 
   rename ( smokers = "% Smokers" ) %>%
+  filter( !is.na(County) ) %>%
   group_by ( State ) %>% 
   summarise ( ave_p_smokers = mean (smokers), .groups = "drop" )
 
@@ -451,6 +467,7 @@ For the *demogr* dataset calculate mean values for life expectancy and median ho
 
 demogr %>% rename(life_exp = "Life Expectancy", 
                   house_inc = "Median Household Income") %>%
+  filter( !is.na(County) ) %>%
   group_by(State) %>%
   summarise ( mean_life_exp = mean(life_exp), 
                           median_household = median(house_inc))
@@ -491,6 +508,7 @@ Let's see how these joins work with the two data tables we have.
 # Filter observations where County is missing
 x <- NE.health %>%
   rename( poor_health = "% Fair or Poor Health", inactive = "% Physically Inactive") %>%
+  filter( !is.na(County) ) %>%
   select(State, County, poor_health, inactive)
 
 # From the "Demographics" dataset, extract "Life Expectancy", "% Frequent Physical Distress",
@@ -498,6 +516,7 @@ x <- NE.health %>%
 y <- demogr %>%
   rename (life_exp = "Life Expectancy", ph_distress = "% Frequent Physical Distress", 
           house_income = "Median Household Income") %>%
+  filter( !is.na(County) ) %>%
   select( State, County, life_exp, ph_distress, house_income)
 
 

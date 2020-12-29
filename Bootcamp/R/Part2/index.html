@@ -1950,12 +1950,22 @@ str(NE.health_2)</code></pre>
 </div>
 <div id="filter---subsetting-rows-using-column-values" class="section level3">
 <h3><em>filter()</em> - subsetting rows using column values</h3>
+<p>Every first row in this dataset has a missing value for a county. This row is used to list overall values for each state. For our analysis we might want to remove these rows:</p>
 <pre class="r bg-success"><code># select only those observations where percent of smokers is greater than 15%
-NE.health_subset1 &lt;- filter ( NE.health_2, p.smokers &gt; 15 )
+NE.health_3 &lt;- filter ( NE.health_2, !is.na(County) )
+head(NE.health_3)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["FIPS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["p.smokers"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.obese"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"09001","2":"Connecticut","3":"Fairfield","4":"10.15790","5":"21.3"},{"1":"09003","2":"Connecticut","3":"Hartford","4":"11.35625","5":"26.2"},{"1":"09005","2":"Connecticut","3":"Litchfield","4":"12.06314","5":"27.7"},{"1":"09007","2":"Connecticut","3":"Middlesex","4":"11.31644","5":"25.5"},{"1":"09009","2":"Connecticut","3":"New Haven","4":"12.84395","5":"28.1"},{"1":"09011","2":"Connecticut","3":"New London","4":"12.35084","5":"29.6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br /> Sometimes we need to further filter our dataset:</p>
+<pre class="r bg-success"><code># select only those observations where percent of smokers is greater than 15%
+NE.health_subset1 &lt;- filter ( NE.health_3, p.smokers &gt; 15 )
 head(NE.health_subset1)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["FIPS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["p.smokers"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.obese"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"23000","2":"Maine","3":"NA","4":"17.30343","5":"29.9"},{"1":"23001","2":"Maine","3":"Androscoggin","4":"16.44921","5":"33.9"},{"1":"23003","2":"Maine","3":"Aroostook","4":"18.59272","5":"35.9"},{"1":"23007","2":"Maine","3":"Franklin","4":"16.19736","5":"34.1"},{"1":"23011","2":"Maine","3":"Kennebec","4":"16.46311","5":"33.5"},{"1":"23017","2":"Maine","3":"Oxford","4":"18.03092","5":"33.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["FIPS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["p.smokers"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.obese"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"23001","2":"Maine","3":"Androscoggin","4":"16.44921","5":"33.9"},{"1":"23003","2":"Maine","3":"Aroostook","4":"18.59272","5":"35.9"},{"1":"23007","2":"Maine","3":"Franklin","4":"16.19736","5":"34.1"},{"1":"23011","2":"Maine","3":"Kennebec","4":"16.46311","5":"33.5"},{"1":"23017","2":"Maine","3":"Oxford","4":"18.03092","5":"33.2"},{"1":"23019","2":"Maine","3":"Penobscot","4":"16.85808","5":"33.7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>Useful filter functions</p>
@@ -1985,7 +1995,7 @@ head(NE.health_subset2)</code></pre>
 <p><br /><br /></p>
 <div id="exercise-4" class="section level4">
 <h4><strong>Exercise</strong></h4>
-<p>In <em>demogr2</em> data leave only those observations where <em>Population</em> is greater than 50K and household income (<em>house_inc</em> ) is less than 75K. Store the result in a data frame called demogr_sub.</p>
+<p>In <em>demogr2</em> data leave only those observations where <em>County</em> is not missing, <em>Population</em> is greater than 50K and household income (<em>house_inc</em> ) is less than 75K. Store the result in a data frame called demogr_sub.</p>
 <p><br /><br /></p>
 </div>
 </div>
@@ -1993,11 +2003,11 @@ head(NE.health_subset2)</code></pre>
 <h3><em>mutate()</em> - create new or modify existing variables (columns)</h3>
 <pre class="r bg-success"><code># Create a new column *both* that is equal TRUE if p.smokers &gt; 15 and
 # p.obese &gt; 33 at the same time
-NE.health_3 &lt;- mutate ( NE.health_2, both = (p.smokers &gt; 15 &amp; p.obese &gt; 30) )
-head(NE.health_3)</code></pre>
+NE.health_4 &lt;- mutate ( NE.health_3, both = (p.smokers &gt; 15 &amp; p.obese &gt; 30) )
+head(NE.health_4)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["FIPS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["p.smokers"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.obese"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["both"],"name":[6],"type":["lgl"],"align":["right"]}],"data":[{"1":"09000","2":"Connecticut","3":"NA","4":"12.73098","5":"25.8","6":"FALSE"},{"1":"09001","2":"Connecticut","3":"Fairfield","4":"10.15790","5":"21.3","6":"FALSE"},{"1":"09003","2":"Connecticut","3":"Hartford","4":"11.35625","5":"26.2","6":"FALSE"},{"1":"09005","2":"Connecticut","3":"Litchfield","4":"12.06314","5":"27.7","6":"FALSE"},{"1":"09007","2":"Connecticut","3":"Middlesex","4":"11.31644","5":"25.5","6":"FALSE"},{"1":"09009","2":"Connecticut","3":"New Haven","4":"12.84395","5":"28.1","6":"FALSE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["FIPS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["p.smokers"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.obese"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["both"],"name":[6],"type":["lgl"],"align":["right"]}],"data":[{"1":"09001","2":"Connecticut","3":"Fairfield","4":"10.15790","5":"21.3","6":"FALSE"},{"1":"09003","2":"Connecticut","3":"Hartford","4":"11.35625","5":"26.2","6":"FALSE"},{"1":"09005","2":"Connecticut","3":"Litchfield","4":"12.06314","5":"27.7","6":"FALSE"},{"1":"09007","2":"Connecticut","3":"Middlesex","4":"11.31644","5":"25.5","6":"FALSE"},{"1":"09009","2":"Connecticut","3":"New Haven","4":"12.84395","5":"28.1","6":"FALSE"},{"1":"09011","2":"Connecticut","3":"New London","4":"12.35084","5":"29.6","6":"FALSE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p><br /><br /></p>
@@ -2010,16 +2020,16 @@ head(NE.health_3)</code></pre>
 <div id="arrange---sort-the-dataset-by-values-in-one-or-more-columns" class="section level3">
 <h3><em>arrange()</em> - sort the dataset by values in one or more columns</h3>
 <pre class="r bg-success"><code># Sort by percent of smokers
-NE.health_4 &lt;- arrange ( NE.health_3, p.smokers )
-head(NE.health_4)</code></pre>
+NE.health_5 &lt;- arrange ( NE.health_4, p.smokers )
+head(NE.health_5)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["FIPS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["p.smokers"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.obese"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["both"],"name":[6],"type":["lgl"],"align":["right"]}],"data":[{"1":"25017","2":"Massachusetts","3":"Middlesex","4":"9.954443","5":"22.1","6":"FALSE"},{"1":"09001","2":"Connecticut","3":"Fairfield","4":"10.157896","5":"21.3","6":"FALSE"},{"1":"09013","2":"Connecticut","3":"Tolland","4":"10.543490","5":"24.9","6":"FALSE"},{"1":"09007","2":"Connecticut","3":"Middlesex","4":"11.316441","5":"25.5","6":"FALSE"},{"1":"09003","2":"Connecticut","3":"Hartford","4":"11.356248","5":"26.2","6":"FALSE"},{"1":"23005","2":"Maine","3":"Cumberland","4":"11.391522","5":"23.3","6":"FALSE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <pre class="r bg-success"><code># Sort by percent of obese adults in reverse order
-NE.health_5 &lt;- arrange ( NE.health_3, desc(p.obese) )
-head(NE.health_5)</code></pre>
+NE.health_6 &lt;- arrange ( NE.health_4, desc(p.obese) )
+head(NE.health_6)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["FIPS"],"name":[1],"type":["chr"],"align":["left"]},{"label":["State"],"name":[2],"type":["chr"],"align":["left"]},{"label":["County"],"name":[3],"type":["chr"],"align":["left"]},{"label":["p.smokers"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.obese"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["both"],"name":[6],"type":["lgl"],"align":["right"]}],"data":[{"1":"23021","2":"Maine","3":"Piscataquis","4":"18.90087","5":"36.6","6":"TRUE"},{"1":"23003","2":"Maine","3":"Aroostook","4":"18.59272","5":"35.9","6":"TRUE"},{"1":"50011","2":"Vermont","3":"Franklin","4":"17.28987","5":"34.3","6":"TRUE"},{"1":"23007","2":"Maine","3":"Franklin","4":"16.19736","5":"34.1","6":"TRUE"},{"1":"23001","2":"Maine","3":"Androscoggin","4":"16.44921","5":"33.9","6":"TRUE"},{"1":"23025","2":"Maine","3":"Somerset","4":"19.09450","5":"33.9","6":"TRUE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -2109,11 +2119,12 @@ MA.health %&gt;% summarise ( N = n(),
 
 NE.health  %&gt;% 
   rename ( smokers = &quot;% Smokers&quot; ) %&gt;%
+  filter( !is.na(County) ) %&gt;%
   group_by ( State ) %&gt;% 
   summarise ( ave_p_smokers = mean (smokers), .groups = &quot;drop&quot; )</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["State"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ave_p_smokers"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Connecticut","2":"11.96888"},{"1":"Maine","2":"16.19218"},{"1":"Massachusetts","2":"13.29660"},{"1":"New Hampshire","2":"14.92073"},{"1":"Rhode Island","2":"13.57246"},{"1":"Vermont","2":"14.69504"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["State"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ave_p_smokers"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Connecticut","2":"11.87362"},{"1":"Maine","2":"16.12273"},{"1":"Massachusetts","2":"13.27009"},{"1":"New Hampshire","2":"14.84627"},{"1":"Rhode Island","2":"13.29697"},{"1":"Vermont","2":"14.61513"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p><br /><br /></p>
