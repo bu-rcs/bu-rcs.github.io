@@ -125,7 +125,7 @@ Tidyverse packages use the following abbreviations to describe the type of each 
 - *chr* - character vectors (or strings)
 - *dttm* - date and time vectors
 - *date* - dates
-- *lgl* - logial vectors
+- *lgl* - logical vectors
 - *fct* - factors
 
 
