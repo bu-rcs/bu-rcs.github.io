@@ -180,7 +180,7 @@ Boxplot graph shows:
 
 - median value
 - maximum and minimum values in a variable and potential outliers
-- interquatile range
+- interquartile range
 - 25th and 75th percentile values
 
 
@@ -199,7 +199,7 @@ ggplot( NE.data, aes (x = State, y = p_inactive) ) + geom_boxplot()
 
 
 
-Boxplot however hides the destribution within a box. So sometimes it is useful to
+Boxplot however hides the distribution within a box. So sometimes it is useful to
 display the actual values within boxplot. We can do that by adding *geom_jitter*:
 
 ```{r, fig.width=6, fig.height=4}
@@ -210,7 +210,7 @@ ggplot( NE.data, aes (x = State, y = p_inactive) ) +
 ```
 
 <br/>
-The above plot alows us to better see the variable's distribution within each state
+The above plot allows us to better see the variable's distribution within each state
 
 <br/><br/>
 
@@ -242,7 +242,7 @@ ggplot( NE.data, aes (x = State, y = p_inactive) ) +
 
 To explore the distribution of a categorical variable, use a bar chart.
 In our dataset, State is a categorical variable. Using a bar chart we can
-compare the numberr of Counties within each State
+compare the number of Counties within each State
 
 ```{r, fig.width=6, fig.height=4}
 ggplot( NE.data, aes (x = State) ) + 
