@@ -48,7 +48,7 @@ Various types of plots allow to generate plots of:
 In this workshop you will learn how to use plots for data exploration. We will also cover how to use R graphics to communicate your results.
 
 
-#### Statistical Tools for Data Analysis
+#### Part4: Statistical Tools for Data Analysis
 
 Discovering and verifying meaningful patterns and correlations in data requires quantitative techniques that can analyze the data in a rigorous mathematical or algorithmic way. Part Four presents how to use various basic statistical tools to analyze the example dataset. The use of these tools is demonstrated and various example diagnostics, patterns, and correlations are examined in the example dataset.
 
