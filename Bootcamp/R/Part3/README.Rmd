@@ -85,7 +85,7 @@ NE.demogr <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootc
           house_income = "Median Household Income",
           N_black = "# Black",
           N_rural = "# Rural") %>%
-  select(State : house_income, N_black, N_rural) %>%
+  select(State : house_income, Population, N_black, N_rural) %>%
   filter( !is.na(County) )
 
 
@@ -100,7 +100,311 @@ glimpse (NE.data)    # similar to str() but slightly different format of output
 ## Using R Graphics for data exploration
 
 
+### Brief introduction to ggplot2 syntax
+
+ggplot2 expects 3 main components:
+
+- `data` - dataframe, containing variable(s) of interest
+- `aes` - attributes of graphics, i.e. variables to be displayed along axis, color, shape, etc.
+- `geom` - geometric shape, i.e. scatterplot, histogram, etc.
+
+<br/>
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes(x = p_inactive, y = p_obese)) + geom_point()
+```
+
+<br/>
+
+### Histogram 
+
+**Variation** - tendency of the variable values to change from observation to observation.
+Each measurement of a variable includes a small amount of error that varies from one observation to another. To better understand the pattern in variation is to display 
+the variable's distribution
+
+For a continuous variable, we use a *histogram*:
+<br/>
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = life_exp) ) + geom_histogram( binwidth = 1)
+
+```
+
+Let's take a look at another variable - *N_rural*
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = N_rural) ) + geom_histogram( bins = 10 )
+
+```
+
+We can see here that this variable is not normally distributed, There are very few counties with a very small number of rural areas. Majority of counties have about 30K rural households. But this graph has a very long right tail - there are some few counties
+that have about 150K rural households.
+
+When we look at a histogram, we should ask the following questions:
+
+- Which values are most common and why?
+- Which values are most rare and why?
+- How many clusters are there in the graph? 
+- How many observations in each cluster?
+- Can we explain these clusters?
+- Are there any unusual values?
+
+
+Let's take a look at the distribution of *p_inactive* variable:
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = p_inactive) ) + geom_histogram( binwidth = 1 )
+
+```
+
+We might want to explore, which county has more than 30% of inactive adults (and why):
+```{r, fig.width=6, fig.height=4}
+NE.data %>% filter (p_inactive > 30)
+
+```
+
+We can see that this is Aroostook County in Maine - the largest American county by land east of the Mississippi River (it is larger than three USA States!) Now, once we identify the observation, we can further explore information we have to understand why percentage of inactive adults is so high in this county.
 <br/><br/>
+
+#### **Exercise**
+
+Plot histograms for *house_income* and *p_housing_problems*. Select appropriate
+bandwidth for each histogram and compare the shapes.
+
+<br/><br/>
+
+### Boxplot
+
+Another useful tool to explore the variable variation is a boxplot.
+
+Boxplot graph shows:
+
+- median value
+- maximum and minimum values in a variable and potential outliers
+- interquatile range
+- 25th and 75th percentile values
+
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = p_inactive) ) + geom_boxplot()
+
+```
+
+<br/><br/>
+We can compare the variation of this variable across various states:
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = State, y = p_inactive) ) + geom_boxplot()
+
+```
+
+
+
+Boxplot however hides the destribution within a box. So sometimes it is useful to
+display the actual values within boxplot. We can do that by adding *geom_jitter*:
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = State, y = p_inactive) ) + 
+  geom_boxplot() + 
+  geom_jitter( width = .25)
+
+```
+
+<br/>
+The above plot alows us to better see the variable's distribution within each state
+
+<br/><br/>
+
+#### **Exercise**
+
+Plot boxplots for *life_exp* per State. Use *geom_jitter()* to better see the 
+distribution of the variable within each boxplot.
+
+<br/><br/>
+
+
+
+### Violin plot
+
+Another way to compare shapes of distributions of a continuous variable is to use a violin plot:
+
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = State, y = p_inactive) ) + 
+  geom_violin() + 
+  geom_jitter( width = .25)
+
+```
+
+
+<br/><br/>
+
+### Bar chart
+
+To explore the distribution of a categorical variable, use a bar chart.
+In our dataset, State is a categorical variable. Using a bar chart we can
+compare the numberr of Counties within each State
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes (x = State) ) + 
+  geom_bar() 
+
+```
+
+<br/><br/>
+
+### Scatterplot
+
+To explore the relationship between two numeric variables, we can use a scatterplot
+
+```{r, fig.width=6, fig.height=4}
+ggplot( NE.data, aes(x = p_inactive, y = poor_health)) + geom_point()
+```
+
+It seems that there some positive correlationship between these two variables.
+Let's try to add a linear regression line:
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+ggplot( NE.data, aes(x = p_inactive, y = poor_health)) + 
+  geom_point() +
+  geom_smooth ( method = lm )
+```
+
+<br/><br/>
+
+#### **Exercise**
+
+Create scatterplots between for *life_exp* and *ph_distress*. Add a linear regression line to your plot.
+
+
+
+<br/><br/>
+
+## Communicating your story with plots
+
+Now, when we are familiar with basic ggplot2 syntax and plots, let's improve our plots to 
+learn more from our data and better communicate the results to others.
+
+We will use the full dataset that includes all USA States:
+
+
+```{r, warning=FALSE, message=FALSE}
+USA.health <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/USA_HealthData.csv") %>%
+  rename(poor_health = "% Fair or Poor Health",
+         p_smokers = "% Smokers",
+         p_obese = "% Adults with Obesity",
+         p_inactive = "% Physically Inactive",
+         p_college="% Some College",
+         p_housing_problems = "% Severe Housing Problems") %>%
+  select(State, County, poor_health : p_inactive, p_college, p_housing_problems) %>%
+  filter( !is.na(County) )
+  
+  
+  
+USA.demogr <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/USA_DemographicsData.csv") %>%
+  rename( life_exp = "Life Expectancy", 
+          ph_distress = "% Frequent Physical Distress",
+          limit_healthy_food = "% Limited Access to Healthy Foods",
+          house_income = "Median Household Income",
+          N_black = "# Black",
+          N_rural = "# Rural") %>%
+  select(State : house_income, Population, N_black, N_rural) %>%
+  filter( !is.na(County) )
+
+
+USA.data <- inner_join( USA.health, USA.demogr, by = c("State", "County"))
+
+
+USA.regions <- read_csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/us_states_census_regions.csv")
+
+# Add the names of Regions
+USA.data <- merge(USA.data, USA.regions, by = "State")
+
+glimpse (USA.data)    # similar to str() but slightly different format of output
+
+```
+
+<br/><br/>
+
+### Adding Title and axis labels to the plot
+
+We will start with a simple scatterplot
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + geom_point()
+```
+
+In this plot we would like to add a title and change labels for x and y axes.
+We can do it in two ways:
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE, eval = FALSE}
+ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + 
+  geom_point() + 
+  ggtitle ("Adults with Poor Health vs.Physically Inactive") + 
+  xlab( "Physically Inactive (%)") + 
+  ylab( "Poor Health (%)")
+```
+
+or
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + 
+  geom_point() + 
+  labs( title = "Adults with Poor Health vs.Physically Inactive",
+        x =  "Physically Inactive (%)",  
+        y = "Poor Health (%)")
+```
+
+<br/><br/>
+
+There are so many points on this plot that it is hard to estimate the number of points
+in the middle of the plot. We can add transparency when we plot the points
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + 
+  geom_point(alpha = 0.1) + 
+  labs( title = "Adults with Poor Health vs.Physically Inactive",
+        x =  "Physically Inactive (%)",  
+        y = "Poor Health (%)")
+```
+
+
+Sometimes it is useful to change the limits of x and/or y axes:
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + 
+  geom_point(alpha = 0.1) + 
+  labs( title = "Adults with Poor Health vs.Physically Inactive",
+        x =  "Physically Inactive (%)",  
+        y = "Poor Health (%)") + 
+  xlim(0,50) + 
+  ylim(0,50)
+```
+
+Together with the regression line:
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + 
+  geom_point(alpha = 0.1) + 
+  geom_smooth(method="lm")+
+  labs( title = "Adults with Poor Health vs.Physically Inactive",
+        x =  "Physically Inactive (%)",  
+        y = "Poor Health (%)") + 
+  xlim(0,50) + 
+  ylim(0,50)
+```
+
+
+
+<br/><br/>
+
+#### **Exercise**
+
+Create scatterplots between for *life_exp* and *ph_distress*. Add a title and axes
+labels to your plot
+
+
+<br/><br/>
+
 
 <h4 class="more">Read more:</h4>
 
@@ -117,3 +421,49 @@ glimpse (NE.data)    # similar to str() but slightly different format of output
 
 
 <br/><br/>
+
+
+### Apendix
+
+There are many useful ggplot2 extension. Here are just a few examples
+
+using `install.packages("ggExtra")` command install *ggExtra* package
+
+Now we can add marginal distributions to the axes of our plot
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+library(ggExtra)
+g <- ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + 
+  geom_point(alpha = 0.1) + 
+  geom_smooth(method="lm")+
+  labs( title = "Adults with Poor Health vs.Physically Inactive",
+        x =  "Physically Inactive (%)",  
+        y = "Poor Health (%)") + 
+  xlim(0,50) + 
+  ylim(0,50) 
+
+  ggMarginal (g, type="histogram" )
+```
+
+You can try to set *type* argument in the *ggMarginal* function to be *density* or *boxplot* to display the distribution as a density curve or a boxplot respectfully.
+
+
+
+<br/><br/>
+
+### Scatterplot Matrix
+
+When we start exploring the dataset it might be useful to quickly look at the reletionship
+of all numeric variables. We can use a scatterplot matrix.
+
+
+using `install.packages("GGally")` command install *GGally* package
+
+```{r, fig.width=6, fig.height=4, warning=FALSE, message=FALSE}
+library(GGally)
+
+ggpairs(NE.data[, 3:7], title="Scatterplot Matrix")
+
+```
+
+ 
