@@ -350,6 +350,7 @@ or
 ggplot( USA.data, aes(x = p_inactive, y = poor_health)) + 
   geom_point() + 
   labs( title = "Adults with Poor Health vs.Physically Inactive",
+        subtitle="USA Population", 
         x =  "Physically Inactive (%)",  
         y = "Poor Health (%)")
 ```
@@ -400,11 +401,165 @@ ggplot( USA.data, aes(x = p_inactive, y = poor_health)) +
 #### **Exercise**
 
 Create scatterplots between for *life_exp* and *ph_distress*. Add a title and axes
-labels to your plot
+labels to your plot.
 
 
 <br/><br/>
 
+### Barplots
+
+Sometimes there is a need to compare two or more groups of populations.
+Let's create a categorical variable. We will assign a label to each County based on the median household income. 
+
+```{r}
+
+USA.data_extra <- USA.data %>%
+  mutate( wealth = case_when(house_income < 50000 ~ "low",
+                             house_income > 80000 ~ "high",
+                             TRUE ~ "middle"))
+
+table(USA.data_extra$wealth)
+
+```
+
+<br/><br/>
+
+
+Let's calculate USA population living in counties with low, middle and high
+income
+
+```{r}
+
+res <- USA.data_extra %>% 
+  group_by(wealth) %>% 
+  summarise ( pop = sum(Population) / 1000000 )  # in Millions
+
+res
+
+```
+
+We can now use this table to draw a barplot:
+
+```{r, fig.width=6, fig.height=4}
+ggplot(res, aes(x=wealth, y = pop )) +
+  geom_bar( stat = "identity" ) + 
+  ggtitle ( "USA population living in counties with low, middle and high income" ) + 
+  ylab("Population, millions") +
+  theme_bw()   # add black and white theme
+```
+
+<br/><br/>
+
+Sometimes it is useful to add values on top of each bar.
+
+
+```{r, fig.width=6, fig.height=4}
+
+ggplot(res, aes(x=wealth, y = pop )) +
+  geom_bar( stat = "identity" ) + 
+  geom_text( aes (label = round(pop, 1) ), vjust = -0.5) + 
+  ggtitle ( "USA population living in counties with low, middle and high income" ) + 
+  ylab("Population, millions") +
+  ylim(0, 225) +
+  theme_bw()   # add black and white theme
+```
+
+<br/><br/>
+
+#### **Exercise**
+
+Compute population living in each USA region and display in as a bar graph. 
+Add `coord_flip()` function to flip x and y axes.
+
+```{r, echo = FALSE, eval = FALSE}
+res <- USA.data_extra %>% 
+  group_by(Region) %>% 
+  summarise ( pop = sum(Population) / 1000000 )  # in Millions
+
+ggplot(res, aes(x=Region, y = pop )) +
+  geom_bar( stat = "identity" ) + 
+  geom_text( aes (label = round(pop, 1) ), hjust = 0) + 
+  ylim(0, 125) + 
+  ggtitle ( "USA population living in each Region" ) + 
+  ylab("Population, millions") +
+  coord_flip() + 
+  theme_bw()   # add black and white theme
+```
+
+
+<br/><br/>
+
+### Grouped Barcharts
+
+We would like to split each bar into groups using a categorical variable. 
+For example compare population living in type of community within each Region.
+We can create a table using two variables in the group_by function:
+
+```{r, warning=FALSE, message=FALSE}
+res <- USA.data_extra %>% 
+  group_by(Region, wealth) %>% 
+  summarise ( pop = sum(Population) / 1000000 )  # in Millions
+res
+```
+
+Now we will use a *fill* argument in the `aes()` call.
+We will also add a `position="dodge"` to the `geom_bar()` call:
+
+```{r, fig.width=9, fig.height=4}
+ggplot(res, aes(x=Region, y = pop, fill = wealth )) +
+  geom_bar( position="dodge", stat = "identity" ) +
+  ggtitle ( "USA population living in each Region" ) + 
+  ylab("Population, millions") +
+  theme_bw()   # add black and white theme
+```
+
+
+<br/>
+New England has less population than West South Ctr Region. So it is hard to 
+compare the relationship of three groups. We can modify the plot to
+"percent stacked" barchart. The only modification we need to mak is to set
+`position="fill"` in the `geom_bar()` call:
+
+```{r, fig.width=9, fig.height=4}
+ggplot(res, aes(x=Region, y = pop, fill = wealth )) +
+  geom_bar( position="fill", stat = "identity" ) +
+  ggtitle ( "USA population living in each Region" ) + 
+  ylab("Population, millions") +
+  theme_bw()   # add black and white theme
+```
+<br/>
+
+In some cases it is useful to display each set of bars in its own plot.
+To do this we can add `facet_wrap()` function. 
+We will also set `x=wealth` in the `aes()` call:
+
+```{r, fig.width=9, fig.height=9}
+ggplot(res, aes(x=wealth, y = pop, fill = wealth )) +
+  geom_bar( position="dodge", stat = "identity" ) +
+  facet_wrap(~Region) +
+  ggtitle ( "USA population living in each Region" ) + 
+  ylab("Population, millions") +
+  theme_bw()   # add black and white theme
+```
+<br/><br/>
+
+
+#### **Exercise**
+
+Use `facet_wrap()` function to compare distributions (using histograms) of *ph_distress* variable from *USA.data* dataset for different regions. 
+
+```{r, echo = FALSE, eval = FALSE}
+
+ggplot(USA.data, aes(x=ph_distress )) +
+  geom_histogram( ) + 
+  ggtitle ( "Physical distress distribution" ) + 
+  facet_wrap(~Region) +
+  xlab("") +
+  theme_bw()   # add black and white theme
+```
+
+
+<br/><br/>
 
 <h4 class="more">Read more:</h4>
 
@@ -418,6 +573,11 @@ labels to your plot
 <br/><br/>
 
 ### Homework 
+
+1. Using violin plot explore the distribution of p_smokers variable per Region.
+2. Add geom_jitter to better see the distribution of values for each region
+3. Plot *life_exp* variable vs. *p_smokers*. Add title and modify the axes labels to make the graph more clear
+4. Which State has a county with the life_exp value greater than 100? Explore the demographics in this region.
 
 
 <br/><br/>
