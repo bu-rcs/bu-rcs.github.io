@@ -478,7 +478,7 @@ Perform linear regression for variables *poor_health* and *p_smokers*.
 - [T.test](http://www.sthda.com/english/wiki/t-test-analysis-is-it-always-correct-to-compare-means#t-test)
 - [Correlation analysis](http://www.sthda.com/english/wiki/correlation-test-between-two-variables-in-r#correlation-formula)
 - [Chi-square test of independence](http://www.sthda.com/english/wiki/chi-square-test-of-independence-in-r)
--[Linear Regression](https://www.datacamp.com/community/tutorials/linear-regression-R)
+- [Linear Regression](https://www.datacamp.com/community/tutorials/linear-regression-R)
 
 
 <br/><br/>
