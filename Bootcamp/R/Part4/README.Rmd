@@ -313,10 +313,163 @@ cor.test( USA.data$p_smokers, USA.data$poor_health)
 
 #### **Exercise**
 
-1. Find correlation, covariance and perform test for correlation between *p_college* and 
+Find correlation, covariance and perform test for correlation between *p_college* and 
 *p_smokers* variables.
+<br/><br/>
 
 
+
+### Chi-square test of independence
+
+
+Let's assign a label to each County based on the median household income:
+
+```{r}
+
+USA.data_extra <- USA.data %>%
+  mutate( wealth = case_when(house_income < 50000 ~ "low",
+                             house_income > 80000 ~ "high",
+                             TRUE ~ "middle"))
+
+table(USA.data_extra$wealth)
+
+```
+
+<br/>
+
+We would like to test if there is a relationship between two categorical variables:
+*wealth* and *Region*. 
+
+Let's first create a contingency table of these two variables:
+
+```{r}
+
+table(USA.data_extra$Region, USA.data_extra$wealth)
+```
+
+<br/>
+
+Let's also draw a barplot to visually represent the data:
+
+```{r, fig.width=6, fig.height=4}
+
+ggplot(USA.data_extra) +
+  aes(x = Region, fill = wealth) +
+  geom_bar() +
+  scale_fill_hue() +
+  theme_minimal()
+```  
+  
+
+<br/><br/>
+
+
+1. **State Hypothesis**: 
+
+*Null-hypothesis* - The variables *Region* and *wealth* are independent, there is no relationship between these two categorical variables.  *Alternative hypothesis* - the variables are dependent. Knowing the value of one variable helps to predict the value of the other variable.
+
+
+2. **Formulate an analysis plan**
+
+We will run [*Chi-square test of independence*](http://www.sthda.com/english/wiki/chi-square-test-of-independence-in-r).
+
+
+3. **Perform analysis**
+
+```{r}
+res <- chisq.test( table(USA.data_extra$Region, USA.data_extra$wealth) )
+res
+```
+
+<br/>
+
+When a warning such as *Chi-squared approximation may be incorrect* appears, it means that the smallest expected frequencies is lower than 5. To avoid this issue, we can either gather some levels or use the *Fisher's exact test*.
+
+4. **Interpret results**
+
+From the output, the p-value < 0.05 implying that we can reject the Null hypothesis and state that there is a significant relationship between the *Region* and *wealth* variables.
+
+<br/><br/>
+
+
+### Linear Regression
+
+**Regression analysis** is a statistical technique for determining the relationship between two or more than two variables.
+
+
+*Simple Linear Regression* - single explanatory variable
+
+*Multiple Linear Regression* - the value of the dependent variable depends on more than one
+explanatory variable.
+
+
+
+In order to visualise the linear relationship between independent and dependent variables we use a scatterplot:
+
+```{r, fig.width=6, fig.height=4}
+
+ggplot(USA.data) +
+  aes(x = p_inactive, y = p_obese) +
+  geom_point( alpha = .2) +
+  labs( title = "p_obese vs. p_inactive",
+        subtitle="USA Population", 
+        x =  "p_inactive (%)",  
+        y = "p_obese (%)")+
+  theme_minimal()
+
+```  
+
+<br/>
+
+We can compute compute correlation between these two variables:
+
+```{r}
+cor( USA.data$p_obese,  USA.data$p_inactive)
+
+
+```
+
+<br/><br/>
+
+Now we can run linear regression:
+
+```{r}
+lm.fit <- lm( p_obese ~ p_inactive, data = USA.data)
+summary(lm.fit)
+
+```
+
+<br/>
+
+R^2 allows us to measure how good this model is. In our case *R-squared* is about 0.3.
+So our model explains only 30% of the data variability. 
+
+<br/>
+We also should look at the residuals. Their plot should look random - we should see no patterns:
+
+ 
+
+<br/><br/>
+
+
+```{r, fig.width=6, fig.height=4}
+
+residuals <- lm.fit$residuals
+fitted <- lm.fit$fitted.values
+
+res <- data.frame(residuals,fitted )
+ggplot(res, aes(x = fitted, y = residuals)) + 
+  geom_point(alpha = 0.2) +
+  labs(title = "Residuals vs Fitted") + 
+  theme_minimal()
+
+```  
+
+<br/><br/>
+
+#### **Exercise**
+
+Perform linear regression for variables *poor_health* and *p_smokers*.
 
 <br/><br/>
 
@@ -324,18 +477,8 @@ cor.test( USA.data$p_smokers, USA.data$poor_health)
 
 - [T.test](http://www.sthda.com/english/wiki/t-test-analysis-is-it-always-correct-to-compare-means#t-test)
 - [Correlation analysis](http://www.sthda.com/english/wiki/correlation-test-between-two-variables-in-r#correlation-formula)
-
-
-
-
-<br/><br/>
-
-### Homework 
-
-1. Using violin plot explore the distribution of p_smokers variable per Region.
-2. Add geom_jitter to better see the distribution of values for each region
-3. Plot *life_exp* variable vs. *p_smokers*. Add title and modify the axes labels to make the graph more clear
-4. Which State has a county with the life_exp value greater than 100? Explore the demographics in this region.
+- [Chi-square test of independence](http://www.sthda.com/english/wiki/chi-square-test-of-independence-in-r)
+-[Linear Regression](https://www.datacamp.com/community/tutorials/linear-regression-R)
 
 
 <br/><br/>
