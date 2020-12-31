@@ -62,7 +62,7 @@ library(dplyr)
 
 <br/><br/>
 
-Let's read the two dataset we explored in the previous workshop and merg them together:
+Let's read the two dataset we explored in the previous workshop and merge them together:
 
 
 ```{r, warning=FALSE, message=FALSE}
@@ -567,6 +567,7 @@ ggplot(USA.data, aes(x=ph_distress )) +
 - [ggplot2 cheat sheet ](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
 - [R graph gallery](https://www.r-graph-gallery.com/)
 - [ggplot2 extensions](https://exts.ggplot2.tidyverse.org/gallery/)
+- [collection of graph caveats](https://www.data-to-viz.com/caveats.html/)
 
 
 
