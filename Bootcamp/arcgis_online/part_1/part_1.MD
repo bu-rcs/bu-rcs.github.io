@@ -9,7 +9,9 @@
 1. Right click on the link below and click on `Save Link As...`.
 
  [NE_DemographicsData.csv](https://raw.githubusercontent.com/bu-rcs/bu-rcs.github.io/main/Bootcamp/Data/NE_DemographicsData.csv)
+ 
 2. In the dialogue box save the file as `NE_DemographicsData.csv`
+
 3. Alternative, you can click on the link and then right click on the page and select `Save As` or `Save Page As` and save the file as `NE_DemographicsData.csv`.
 
 ## Uploading Data
