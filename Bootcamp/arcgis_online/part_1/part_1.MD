@@ -9,7 +9,9 @@
 1. Right click on the link below and click on `Save Link As...`.
 
  [NE_DemographicsData.csv](https://raw.githubusercontent.com/bu-rcs/bu-rcs.github.io/main/Bootcamp/Data/NE_DemographicsData.csv)
+ 
 2. In the dialogue box save the file as `NE_DemographicsData.csv`
+
 3. Alternative, you can click on the link and then right click on the page and select `Save As` or `Save Page As` and save the file as `NE_DemographicsData.csv`.
 
 ## Uploading Data
@@ -417,13 +419,52 @@
 **With the symbology applied your map should look similiar to the snippet below.**
 <img src="snippets/69_layer_change_style_distress_result.png" width="500">
 
+**The layer name `USA Demographics` is not that informative, let's change it to the name of the attribute field we used to symbolize the data.**
+
+16. Hover the mouse over the `USA Demographics` layer, and click on the three dots `...` and then `Rename`.
+<img src="snippets/70_layer_rename.png" width="400">
+
+17. In the new window type in `% Frequent Physical Distress` and click `OK`.
+<img src="snippets/71_layer_rename_form.png" width="400">
+
+**The layer name now reflects the sybmolized data in the map.**
+
 ### Save the Map
 
-16. This is a good time to save the map. For the title use `Web Map: Demographics - <username>`
+18. This is a good time to save the map. For the title use `Web Map: Demographics - <username>`
 
+## Share Web Map
+**At this point you may want to share a map with someone else by giving them a url. Let's look at how this is done.**
 
+1. Click n the `Share` button which is to the right of the `Save` button.
+<img src="snippets/72_map_share_button_click.png" width="300">
 
+**Before we can share the map, we need to change the permissions of who can view it.  The form contains several checkboxes for selecting with whom we want to share the map with.**
+* `Everyone (public)` will allow anyone in the world to see it.  
+* `Boston University College of Arts and Sciences` will restrict it to BU community who have an ArcGIS Online account.  
+* Finally, we can restrict access to a particular group.
 
+2. Click the checkboxes for who you want to have access to this map. In this example I am only going to share it with the BU community by checking `Boston University College of Arts and Sciences`.
+<img src="snippets/73_map_share_permission_select.png" width="700">
 
+3. Further down the form there is a section `Link to this map` that contains a short URL you can share with others.
+ <img src="snippets/74_map_share_link.png" width="500">
 
+4. Click on `DONE`.
 
+**The permissions are now set and you can share the map with others.  You can also copy the link that is at the top of the browser and share that with others as well.**
+
+**Let's take a closer look permissions from `My Content` page.**
+
+5. Navigate to `Content` --> `My Content`
+
+**Look at the permissions column for the items listed and you will see that the permission icon changed for the web map we shared.**
+<img src="snippets/75_my_content_permissions.png" width="700">
+
+6. Click on the permissions icon.
+
+**A new window will appear which will allow you to modify permissions for that particular item.**
+
+<img src="snippets/76_my_content_permissions_change.png" width="300">
+
+7. We won't make any change here, click `Cancel`.
