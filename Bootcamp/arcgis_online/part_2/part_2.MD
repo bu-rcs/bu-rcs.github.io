@@ -2,19 +2,27 @@
 ### Author: Dennis Milechin, Research Computing Services, Boston University
 
 ## Content
-  * [Open Existing Web Map](#open-existing-web-map)
-  * [Map Viewer: Configure Pop-Ups](#map-viewer-configure-pop-ups)
-  * [Map Viewer: Add Labels](#map-viewer-add-labels)
-  * [Map Viewer: Symbolize Data](#map-viewer-symbolize-data)
-  * [Map Viewer: Rename Layer](#map-viewer-rename-layer)
-  * [Map Viewer: Layer Order](#map-viewer-layer-order)
-  * [Map Viewer: Change BaseMap](#map-viewer-change-basemap)
-  * [AppBuilder](#appbuilder)
-  * [AppBuilder: Layer List Widget](#appbuilder-layer-list-widget)
-  * [AppBuilder: Group Filter Widget](#appbuilder-group-filter-widget)
-  * [AppBuilder: Bar Plot Widget](#appbuilder-bar-plot-widget)
-  * [AppBuilder: Map Viewer Widgets](#appbuilder-map-viewer-widgets)
-  * [AppBuilder: Publish](#appbuilder-publish)
+* [Open Existing Web Map](#open-existing-web-map)
+* [Map Viewer: Configure Pop-Ups](#map-viewer-configure-pop-ups)  
+* [Map Viewer: Add Labels](#map-viewer-add-labels)
+* [Map Viewer: Symbolize Data](#map-viewer-symbolize-data)
+* [Map Viewer: Rename Layer](#map-viewer-rename-layer)
+* [Map Viewer: Layer Order](#map-viewer-layer-order)
+* [Map Viewer: Change BaseMap](#map-viewer-change-basemap)  
+* [AppBuilder](#appbuilder)
+* [AppBuilder: Layer List Widget](#appbuilder-layer-list-widget)
+* [AppBuilder: Group Filter Widget](#appbuilder-group-filter-widget)
+* [AppBuilder: Bar Plot Widget](#appbuilder-bar-plot-widget)
+* [AppBuilder: Map Viewer Widgets](#appbuilder-map-viewer-widgets)
+* [AppBuilder: Publish](#appbuilder-publish)  
+* [StoryMap](#storymap)
+* [StoryMap: Add Text](#storymap-add-text)
+* [StoryMap: Add Image](#storymap-add-image)
+* [StoryMap: Sidecar](#storymap-sidecar)
+* [StoryMap: Preview](#storymap-preview)
+* [StoryMap: Add Map](#storymap-add-map)
+* [StoryMap: Add Swipe](#storymap-add-swipe)
+* [StoryMap: Publish](#storymap-publish)
 
 ## Open Existing Web Map
 
@@ -457,7 +465,7 @@
 	
 1. At the top, replace `Infographic` with the name of the layer, `% Frequent Physical Distress`.  This will be the tab name.
     
-	<img src="snippets/61_appbuilder_widget_3_tab_title.png.png" width="500">
+	<img src="snippets/61_appbuilder_widget_3_tab_title.png" width="500">
 
 1. Further down the form, click on the top of the preview window, where it says `TITLE OF THE INFOGRAPHIC`.
     
@@ -616,5 +624,405 @@
 \[[top](#content)\]
 
 
+## StoryMap
+
+**ArcGIS Online has another web application that allows one to share results and include a narrative.  This application is called a StoryMap. Before creating a StoryMap, let's download a zip file that contains some images we will use in our Story Map**
+
+1. Click on the link below.
+   
+   [storymap_images.zip](https://bucas.maps.arcgis.com/home/item.html?id=c77c32c2c3184b18906fba6f9c0e3069)
+	
+1. Click on `Download` in the top right, to download the file in an easy access place, like your desktop.
+   
+   <img src="snippets/95_download_file.png" width="700">
+   
+1. Unzip the file.  
+
+   **The zip file contains three images that we will use in our StoryMap.**
+   
+   * Life_Expectancy.png
+   * Life_expectancy_new_england_south.png
+   * RCS-boot-camp-background-bc21.png
+	
+    **Next we will start the StoryMap application.**
+	
+1. Navigate to `Content` and `My Content` page.
+1. Click on `Create` at the top left.
+    
+	<img src="snippets/88_story_map_click.png" width="700">
+    
+	**This will open a new tab showing a template of a StoryMap**
+    
+	<img src="snippets/89_story_map_page.png" width="700">
+	
+1. In the menu at the top, click on `Design`.
+    
+	<img src="snippets/90_story_map_design.png">
+	
+	**This opens a new pane on the left side with some basic design options.  As you choose different options, it will apply the change in the main window.**
+	
+	<img src="snippets/90_story_map_design.png">
+	
+1. For this session, choose the `Minimal` and the `Summit` theme.
+1. Close the pane by clicking `X` in the top right corner.
+    
+	<img src="snippets/91_story_map_design_config.png" width="300">
+	
+	**Next we are going to add banner to the top of the page.**
+	
+1. Below the menu there is a button `Add cover image or video`.  Click on this button.
+	
+	<img src="snippets/93_story_map_add_cover_image.png" width="700">
+	
+1. Click on `Browse your files` and find the image `RCS-boot-camp-background-bc21.png`.
+1. Click `Add` button.
+    
+	<img src="snippets/96_story_map_add_banner.png" width="400">
+	
+	**The banner should now be position at the top.  The focus is not that great, so let's adjust it.**
+	
+	<img src="snippets/97_story_map_banner.png" width="700">
+	
+1. Click on the gear icon located at the top center of the banner.
+
+	<img src="snippets/98_story_map_banner_gear_icon.png" width="500">
+
+1. In the `Image Preview`, click and drag the round grey dot to the top, to refocus the banner.
+    
+	<img src="snippets/99_story_map_banner_focus_1.png" width="500">
+	
+	<img src="snippets/100_story_map_banner_focus_2.png" width="500">
+	
+1. Click the `Save` button.
+    
+    **This will center the title of the banner closer to the center.**
+	
+1. To edit the title of the StoryMap click on `Title your story` to activate the edit mode.
+    
+	<img src="snippets/92_story_map_edit_title.png" width="700">
+	
+	**In this environment, if you want to edit text, you  just click on the text object and it will got into edit mode. Once done editing, just click somewhere outside that object or hit `enter` on your keyboard.
+	
+1. Type in the following 
+    
+	> Story Map Example
+	
+1. Once done typing, hit the `enter` key on your keyboard or click the mouse outside of the title block.
+    
+\[[top](#content)\]
+
+## StoryMap: Add Text
+
+**Below the title and author is a "+" icon.  This is how one adds elements to the storymap.**
+	
+1. Click on the "+" icon to get a menu of options.
+    
+	<img src="snippets/101_story_map_add_item.png" width="500">
+	
+1. Click on `Text`.
+	
+    <img src="snippets/102_story_map_text.png" width="400">
+	
+	**This adds a text element to the Story Map.  Let's add a header for an introduction section.**
+	
+1. For this element, type in the following and hit `enter` on your keyboard.:
+    
+	> Introduction
+	
+	**If you don't have a text cursor, click on the `+` icon again and `Text`.**
+	
+1. With the mouse, select the word `Introduction`.
+    
+    **This will activate additional formating options for that element.**
+	
+	<img src="snippets/103_story_map_highlight_text.png" width="700">
+	
+1. Click on `Paragraph` and select `Heading`
+	
+	<img src="snippets/104_story_map_highlight_heading.png" width="400">
+	
+	**Next, let's add content to this section.**
+	
+1. Copy following text to be used later:
+    
+	> This page takes a spatial look at two attributes from the data set used in the Health Ranking Model developed by University of Wisconsin Population Health Institute.
+	
+1. Mouse click below the `Introduction` heading and you should see `+` icon appear where additional elements can be added.
+1. Click on the `+` icon and select `Text` again.
+1. Paste the paragraph.
+    
+	**Since we are refering to s specific organization in this paragraph, let's add a link that takes a user to their homepage.**
+
+1. Copy the following link:
+    
+	> https://www.countyhealthrankings.org/explore-health-rankings/rankings-data-documentation
+	
+1. Select the phrase `Health Ranking Model` in the text.
+1. Click on the `Add Link` icon.
+    
+	<img src="snippets/105_story_map_add_link.png" width="700">
+	
+1. Paste the link in the field and hit `enter` on yourt keyboard.
+
+	<img src="snippets/106_story_map_add_link_paste.png" width="700">
+	
+	**Now the phrase `Health Ranking Model` is a link.**
+	
+1. Add another header section called `Attributes`.
+    
+	**In this section let's create a list of attributes and their definitions.**
+	
+1. Copy the following line:
+    
+	> Life Expectancy - Average number of years a person is expected to live.
+	
+1. Add another `Text` element and paste the line above.
+    
+	<img src="snippets/107_story_map_attribute_section.png" width="700">
+	
+1. Select the line.
+1. Click on `Paragraph` and click `Bulleted List`.
+    
+	<img src="snippets/108_story_map_attribute_bullet_list.png" width="600">
+	
+1. To add a second bullet, mouse click at the end of the line, to get the text cursor, and hit `enter` on your keyboard. 
+1. Add the following line as the second bullet:
+    
+	> Frequent physical distress - Percentage of adults reporting 14 or more days of poor physical health per month.
+	
+1. Make `Life Expectancy` and `Frequent physical distress` phrases bold, to highlight they are attributes.
+    
+    <img src="snippets/109_story_map_attribute_bullet_list_complete.png" width="700">
+	
+	**Next let's add a section called `Plots`.**
+
+\[[top](#content)\]
+
+## StoryMap: Add Image
+
+1. Create a header with the title `Plot` and the following one sentence description.
+   
+   > Below are some exploration plots of the Life Expectancy attribute.
+   
+    <img src="snippets/110_story_map_section_plots.png" width="700">
+   
+   **Now let's add a plot.**
+  
+1. Mouse click below the `Plots` section and click on the `+` icon.
+1. Click on `Image`.
+    
+	<img src="snippets/111_story_map_section_plots_select_image.png" width="400">
+	
+1. Click on `Browse your files` and find the image `Life_Expectancy.png` from the zip file downloaded earlier.
+1. Click `Add` button.
+    
+    <img src="snippets/112_story_map_section_plots_select_image.png" width="500">
+
+1. Hover the mouse over the plot, and additional configuration options will appear.
+    
+    <img src="snippets/113_story_map_section_plots_config_options.png" width="700">
+	
+	**Hovering a mouse over an element will sometimes make additional configuration options appear.  They may not always appear in the same location though.**
+
+1. Below the plot, there is an option to add a caption.  Add the following caption:
+    
+	> Figure 1
+	
+	<img src="snippets/114_story_map_section_plots_add_caption.png" width="700">
+	
+1. Below the plot, add a `Text` element with the following text:
+    
+	> Figure 1 shows the life expectancy distribution for the United States. The average life expectancy is 77.5 years.
+	
+	<img src="snippets/115_story_map_section_plots_add_text.png" width="700">
+	
+1. Repeat the same process as above and add the other plot image `Life_expectancy_new_england_south.png` from the zip file that was downloaded earlier.
+1. Add a caption of `Figure 2`
+1. Add the following sentence as a `Text` element below the plot.
+    
+	> Figure 2 shows the distribution of life expectance for New England and East South Ctr Region.
+	
+	<img src="snippets/116_story_map_section_plots_2.png" width="700">
+
+\[[top](#content)\]
+
+## StoryMap: Sidecar
+
+**We will add an element called Side Car that will progress through the plots an a different way.**
+
+1. Below the plots, create another section called `Sidecar` by inserting another `Text` element.
+1. Click the `+` icon to add another element.
+1. Select `Sidecar`
+    
+	<img src="snippets/117_story_map_sidecar.png" width="400">
+	
+1. In the new window select `Docked panel`.
+1. Click `Done`
+    
+    <img src="snippets/118_story_map_sidecar_docked_panel.png" width="500">
+	
+	**The window should look like the snippet below.**
+	
+	<img src="snippets/119_story_map_sidecar_result.png" width="700">
+	
+1. On the right side there is an `Add Media` drop down menu.  Click on it and click on `Add image or video`.
+    
+	<img src="snippets/120_story_map_side_car_add_image.png" width="700">
+
+1. In the new window click on `Browse your files` and find the `Life_Expectancy.png` image.
+1. Click `Add`.
+    
+	**The image is cropped.  Let's adjust that.**
+	
+	<img src="snippets/121_story_map_side_car_add_image_1.png" width="700">
+	
+1. At the top of the image, click on the gear icon.
+    
+	<img src="snippets/121_story_map_side_car_add_image_1_gear.png" width="700">
+	
+1. Under the `Display` tab, make sure `Fit (do not crop)` is selected.
+1. Click `Save`
+    
+	<img src="snippets/122_story_map_side_car_add_image_not_crop.png" width="500">
+
+    **Now the plot is fully visible.**
+	
+1. On the left side, click the `+` icon and add a new `Text` element with the following text:
+    
+	> Figure 1: Life expectancy distribution for the United States.
+	
+	<img src="snippets/123_story_map_side_car_add_text.png" width="700">
+	
+    **Now let's add a second slide.**
+
+1. On the bottom right, click on the large `+` icon.
+    
+	<img src="snippets/124_story_map_side_add_slide.png" width="700">
+
+    **This will create a new blank slide.  You can see all the slides you have created at the bottom.**
+	
+	<img src="snippets/125_story_map_slide_list.png" width="700">
+	
+1.  Repeat the above steps and add the second plot, `Life_expectancy_new_england_south.png`, and add the following sentence on the left side:
+    
+	> Figure 2: Life expectancy distribution for New England and East South Ctr Region.
+	
+	
+	<img src="snippets/126_story_map_slide_2.png" width="700">
+	
+\[[top](#content)\]
+
+## StoryMap: Preview
+
+**Next, let's preview what we have made so far.**
+
+1. At the top of the page, click on `Preview`.
+    
+    <img src="snippets/125_story_map_slide_list.png" width="700">
+	
+	**This will convert the page into a preview page of what visitors to your storymap will see.**
+
+1. Scroll down the page slowly until you reach the bottom of the page to observer all elements.
+1. Get back into edit mode by clicking the `Edit story` button at the top.
+    
+	<img src="snippets/127_story_map_edit_story.png" width="400">
+
+\[[top](#content)\]
+
+## StoryMap: Add Map
+**In this section we will add a web map we had created earlier to this StoryMap.**
+
+1. Scroll to the bottom of the Story Map.
+1. Click on the `+` icon below the Sidecar element.
+1. Click on `Map`.
+    
+	<img src="snippets/128_story_map_map.png" width="400">
+	
+    **An `Add a map` page will appear.  Here you need to select an already existing map that you want to add.**
+	
+1. Under the `My Maps` tab, click on the web map you created.  It should be titled as `Web Map: Demographics - <username>`.
+    
+	<img src="snippets/129_story_map_choose_map.png" width="700">
+	
+	**When you click on a web map, it will take you to a new page where you can configure some simple things on the map.  If you want to make significant changes to the map, such as symbology, you need to open this web map in a Map Viewer to make those changes.**
+	
+	<img src="snippets/130_story_map_choose_map_config.png" width="700">
+	
+	**At this stage you can choose what map extent is going to be shown initially when the web map is loaded in the StoryMap.**
+	
+1. Zoom in on the United States mainland and click `Place Map` button on the bottom right.
+   
+    <img src="snippets/131_story_map_choose_map_extent.png" width="700">
+	
+	**The map is added to our StoryMap.  If you hover over the map, additional configuration options will appear.  We will leave the map as is for this tutorial.**
+	
+	<img src="snippets/132_story_map_choose_map_options.png" width="700">
+
+\[[top](#content)\]
+
+## StoryMap: Add Swipe
+
+**In this section we will add the Swipe element.  This will allow users to compare two layers.**
+
+1. Scroll to the bottom of the StoryMap and click on the `+` icon.
+1. Click on `Swipe`.
+    
+	<img src="snippets/133_story_map_swipe.png" width="400">
+	
+	**You should see an element that looks like the snippet below.**
+	
+	<img src="snippets/134_story_map_swipe_final.png" width="700">
+	
+1. In the left pane, clikc on `Add web map`.
+1. Select the same Web Map as you did in the previous examples, titled `Web Map: Demographics - <username>`.
+    
+	**In the map preview page, look under `All features` at the two layers listed. To the right of the layer name has an eyeball icon that will indicate if the layer is visible or not.  You may need to hover over the layer to see the icon for visible layers.**
+	
+	<img src="snippets/135_story_map_swipe_visible_layers.png" width="400">
+	
+1. Make sure the `%Frequent Physical Distress` layer is visible and `Life Expectancy` is not visible, just like the snippet above.
+1. Click `Place Map`.
+    
+	**The left pane now contains the map we imported.**
+	
+	<img src="snippets/136_story_map_swipe_left_pane.png" width="700">
+
+	**Now we need to add a map on the right pane.**
+	
+1. Repeat the process and add the same web map, except make `Life Expectancy` layer visible, and the `% Frequent Physical Distress` layer not visible.
+    
+	<img src="snippets/137_story_map_swipe_right_visible.png" width="500">
+
+1. Click `Place Map`.
+    
+	**Now the right pane contains the `Life Expectancy` map. This element is now complete.**
+	
+	<img src="snippets/138_story_map_swipe_right.png" width="700">
+
+1. Click and drag the slider to compare the layers.
+
+	<img src="snippets/139_story_map_swipe_slider.png" width="700">
+	
+\[[top](#content)\]
+
+## StoryMap: Publish
+
+**Now let's publish the StoryMap so other can see it.**
+
+1. At the top of the page, click on `Publish`.
+    
+	<img src="snippets/140_story_map_swipe_slider.png" width="700">
+	
+1. Select the sharing level for your StoryMap.
+1. Share your StoryMap with the RCS Bootcamp 2021 group, by searching for the group in the search field at the bottom.
+    
+	<img src="snippets/141_story_map_publish.png" width="400">
+	
+1. Click on the group to select it.
+1. Click `Publish Story`.
+    
+	**ArcGIS Online will check the StoryMap for issues and then if everything is OK, it will show you the final published StoryMap.**
+	
+\[[top](#content)\]
 
 
