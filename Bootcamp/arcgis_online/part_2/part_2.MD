@@ -125,7 +125,9 @@
     
 	<img src="snippets/12_map_layer_create_label_text.png" width="400">
     
-    **In the map viewer, you should see the labels appear for some counties.  Since the counties are so close together, not all the labels can be drawn, otherwise they would overlap.  ArcGIS Online tries to fit as many labels as possible, without overlapping.  We want the labels to only appear when we are zoomed in.**
+    **In the map viewer, you should see the labels appear for some counties.  Since the counties are so close together, not all the labels can be drawn, otherwise they would overlap.  ArcGIS Online tries to fit as many labels as possible, without overlapping.  Having labels at this zoomed out scale is not very informative.  We can restrict the labels to only appear at certain scales, preferably when all the counties can be labeled.**
+	
+	<img src="snippets/142_map_labels_initial.png" width="700">
     
     **In the `Visible Range` section, the black arrow indicates the current map view scale.**
     

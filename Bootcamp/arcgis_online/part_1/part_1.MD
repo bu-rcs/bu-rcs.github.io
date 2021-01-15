@@ -409,6 +409,8 @@
 
 1. Save the map.
 
+    **We are now done with this web map for this session.  Next, we will create a new web map and import a dataset that I had already prepared for this session.**
+
 \[[top](#content)\]
 
 ## Look at My Content
@@ -440,7 +442,7 @@
 \[[top](#content)\]
 
 ## Join RCS Bootcamp Group
-**To save time, I joined Health Ranking demographics dataset to all the counties in the US and made that layer available via group.  First lets have you joined the RCS Bootcamp group I had created.**
+**Now we are going to create a new Web Map and import the Health Ranking demographics dataset for all the counties in the US.  To save time, I have already created the layer and made it available via RCS Bootcamp group. First lets have you joined the RCS Bootcamp group I had created.**
 
 1. Log onto ArcGIS Online portal. Remember your username has `_bucas` appended to it. (https://bucas.maps.arcgis.com/)
 1. In the top menu, click on `Groups`.
