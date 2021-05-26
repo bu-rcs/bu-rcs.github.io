@@ -1,0 +1,488 @@
+---
+title: "Introduction to R"
+author: "Research Computing Services"
+output:
+  html_document:
+    df_print: paged
+---
+
+<style type="text/css">
+
+body{ /* Normal  */
+  font-size: 12px;
+}
+td {  /* Table  */
+  font-size: 10px;
+}
+code.r{ /* Code block */
+    font-size: 12px;
+    background-color: #FAEAEA; 
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 12px;
+}
+
+.more {
+  color: #580000;
+  font-style: italic;
+}
+</style>
+
+<br><br>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, class.source="bg-success")
+```
+
+
+
+
+
+### Basic Arithmetic
+
+Let's try to perform basic arithmetic operations, i.e:
+```{r}
+4 + 7
+```
+
+We can also use brackets and basic math functions:
+```{r}
+3.5 + (7 - 9)/5.8 - log(1.2)
+```
+
+<br/><br/>
+
+### Assigning values to a variable
+
+R uses an arrow sign to assign a value to a variable:
+```{r}
+x <- 2.71
+```
+
+We can read this line as *2.71 is assigned to x*. In many cases you can use equal sign `=` as well, but in R it is a good practice to use arrow `<-` for assignments and equal sign `=` to specify the values of arguments in functions.
+<br/>
+
+
+#### *Note:*
+
+Object names in R can use letters, digits, dots, and underscores. Spaces and other special characters cannot be used to name R objects.
+<br/>
+
+```{r, eval=FALSE}
+
+# Assign a value to a variable
+x <- 2.71
+
+# Print out the value of a variable in the console window:
+print(x)
+
+# Another way to print out the value of a variable:
+x
+
+# Assign a value to a variable and prints its value on the console
+( x <- 2.71 )
+```
+
+
+#### **Exercise**
+Assign numeric values to variables `a` and `b` and then calculate `a + b`, `a * b`, `a - b`, and `a /b `.
+
+<br/><br/>
+
+
+
+### Data types in R
+
+Objects in R can have different types.
+
+Basic Data types in R:
+
+- **Numeric** (real numbers)
+- **Integer** (whole numbers)
+- **Logical** (TRUE/FALSE)
+- **Character** (strings)
+- **Complex** 
+
+Numeric is the default data type for numbers in R:
+
+```{r}
+x <- 5.24
+class(x)
+typeof(x)
+```
+
+Numeric values are stored with *double* precision.
+
+To store value as an integer, we can add *L* symbol at the end:
+
+```{r}
+i <- 3L
+class(i)
+typeof(i)
+```
+
+The logical data type stores boolean values:
+
+```{r}
+ans <- TRUE
+class(ans)
+```
+
+The character data type variables store single characters or strings. Double or single commas can be used to define a character value:
+
+```{r}
+my.name <- "Katia Bulekova"
+```
+
+<br/><br/>
+
+
+
+### R Functions
+
+As many other languages, R has built-in functions, i.e `sqrt()`, `log()`, `round()`, etc. Many other functions are defined in R packages that you can install (we will do it a little later.)
+
+Functions can have zero, one, or more arguments. Some arguments have *default* values:
+```{r}
+# List function arguments
+args(round)
+```
+ The argument *digits* in the `round()` function has a default value 0. So if we call this function and do not use the argument *digits*, the value of `x` will be rounded to the nearest whole number. If we want to round `x` to one decimal place, we need to set *digits* to one:
+```{r, eval = FALSE}
+# Round to one decimal place
+round(x, digits=1)
+```
+```{r}
+# or simply:
+round(x, 1)
+```
+ 
+#### *Note:*
+It is  recommended to specify the argument names as it makes your code easier to understand and share with others. When you name arguments, their order does not matter!
+<br/><br/>
+
+### R Help
+
+R comes with comprehensive help system.
+
+Use one question mark in front of the function name if you know function's name.
+
+Use two question marks, if you do not know function name and you search for a topic. If your search includes more than one word, use quotes:
+
+```{r, eval = FALSE}
+# Search for a help topic for round() function:
+?round
+
+# List all R help topics that include "standard deviation" phrase:
+??"standard deviation"
+```
+
+
+#### **Exercise**
+Find help topics for *working directory* phrase. From the resulting list select the function that comes from *base* package. Read the description of the function and execute it in your console window. Do not forget parenthesis. 
+
+
+<br/><br/>
+
+### R Data Structures
+
+R has five common data structures:<br/>
+
+Homogeneous:
+
+- vector
+- matrix/array
+
+Heterogeneous
+
+- data frame
+- list
+
+The following functions help to explore data structures:<br>
+`typeof()`, `length()`, `class()`, `str()`, `summary()`
+<br/><br/>
+
+### Vectors
+A vector is a collection of elements of the same type (mode). Most commonly vectors are *character*, *logical*, *integer*, or *numeric*. We can use function `c()` to define a vector:
+
+```{r}
+# numeric vector
+x_num <- c(5.6, 3.2, 7.8, 9.1)
+
+# character vector
+x_char <- c("copper", "iron", "silver", "lead", "gold" )
+
+# logical vector
+x_log <- c(TRUE, FALSE, FALSE, TRUE)
+
+```
+
+<br/>
+
+#### **Exercise**
+Define numeric, character, and logical vectors. Use 
+`typeof()`, `length()`, `class()`, `str()`, `summary()` functions to explore these vectors. Compare the outputs of `summary()` function for numeric, character and logical vectors.
+<br/><br/>
+
+### Appending elements to a vector
+
+We can add more elements to a vector using the same `c()` function:
+```{r}
+x_num <- c(-1.7, x_num, -2.4)
+x_num
+```
+<br/><br/>
+
+### Vectors from a Sequence
+Using `:` operator we can create a sequence of values (an integer vector):
+```{r}
+( seq1 <- 1:50 )
+( seq2 <- 25:4 )
+```
+**Note:** Both starting and ending values are included in the resulting vector.
+<br/>
+
+#### **Exercise**
+Search for a help topic for function `mean()` ( `?mean` ). Using this function calculate an average value of any numeric vector you defined so far.
+
+Try other functions.
+
+For numeric vectors:<br/>
+`max()`, `min()`, `median()`, `sd()`, `sum()`
+
+For character vectors:<br/>
+`nchar()`, `unique()`, `strtrim()`, `substring()`
+
+For logical vectors:<br/>
+`sum()`, `which()`
+<br/><br/>
+
+### Operations between vectors
+We can perform operations on one, two or more vectors:
+
+```{r}
+# define a vector with distances in inches
+heights <- c(65, 69, 60, 71, 66, 68, 64)
+
+# convert to centimeters
+heights * 2.54
+```
+
+
+
+
+```{r}
+# define two vectors (heights in inches and weight in pounds)
+heights <- c(65, 69, 60, 71, 66, 68, 64)
+weights <- c(130, 142, 125, 180, 179, 154, 146)
+
+# Calculate BMI
+( bmi <- (weights/heights^2) * 703 )
+```
+
+
+<br/><br/>
+
+### Vector slicing
+R uses square brackets `[]` to slice/subset vectors:
+```{r}
+# extract second value from a vector
+x_num[2]
+
+# get all elements starting from second and ending with fourth
+x_num[2:4]
+
+#get first and fourth element
+x_num[ c(1,4) ]
+
+```
+
+<br/><br/>
+
+### Missing values
+
+Missing values in R are represented with the `NA` string. It can be used for all types of vectors:
+
+```{r}
+# numeric vector
+x_num <- c(5.6, 3.2, NA, 7.8, 9.1, NA)
+
+# character vector
+x_char <- c("copper", NA, "iron", "silver", "lead", NA, "gold" )
+
+# logical vector
+x_log <- c(TRUE, NA, FALSE, FALSE, NA, TRUE)
+
+```
+
+<br/><br/>
+Functions `is.na()` and `anyNA()` help to identify if there are any missing value and if so, which one:
+```{r}
+# Check if there are any missing values
+anyNA(x_num)
+
+# Check each element in a vector to see which elements are missing'
+is.na(x_num)
+
+# Identify indecies of the missing elements
+which( is.na(x_num) )
+
+# Check how many missing elements
+sum( is.na(x_num) )
+```
+
+<br/><br/>
+
+Almost any computation involving a missing value will return a missing value. 
+```{r}
+# Calculate mean value of vector x_num
+mean(x_num)
+```
+
+<br/><br/>
+Many R functions have a special argument, that allows to remove all missing values:
+```{r}
+# Calculate mean value of vector x_num ignoring missing values
+mean(x, na.rm=TRUE)
+```
+
+<br/>
+
+#### **Exercise**
+Apply `summary()` function to any numeric vector you defined that has missing values. Examine the output. 
+<br/><br/>
+
+### Factors
+
+Factors in R are used to store categorical data. When R vectors are converted to factors, each unique value is assigned an integer value (label). By default these integer labels are assigned alphabetically:
+```{r}
+# define a vector:
+ans <- c("yes", "no", "no", "yes", "yes", "yes")
+summary(ans)
+
+# convert vector to factor:
+ans <- factor(ans)
+summary(ans)
+```
+
+<br/>
+Sometimes, categorical data are coded as integer values (for example 1-for female, 2-for male). It makes sense to convert them to factors and assign appropriate labels:
+```{r}
+# gender defined with integer values
+gender <- c(1, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 2)
+summary (gender)
+
+# convert vector to factor and assign appropriate labels
+gender <- factor( gender, labels = c("female", "male"))
+summary(gender)
+```
+
+<br/><br/>
+
+### Reading Data
+
+R can read data written in many different formats. Today we will read basic CSV file.
+You can see the following link to see examples of reading data saved in different formats:
+
+We will work with a simple CSV file today. 
+
+1. In your RStudio Console window execute `pwd()` command to find your current working directory
+2. Save [NE_HealthData.csv](https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_HealthData.csv) file in your working directory
+
+```{r, eval=FALSE}
+# Read CSV file
+NE.health <- read.csv("NE_HealthData.csv")
+```
+```{r, echo=FALSE}
+# Read CSV file
+NE.health <- read.csv("https://github.com/bu-rcs/bu-rcs.github.io/raw/main/Bootcamp/Data/NE_HealthData.csv")
+```
+
+<br/>
+There are a number of functions in R that can be used for the exploration of the imported datasets:
+
+- `View(x)` - view imported data
+- `names(x)` - list column names
+- `head(x)` - print first 6 records
+- `tail(x)` - print last 6 records
+- `summary(x)` - print summary of each column in the dataset
+- `str(x)` - print structure of the object
+
+```{r}
+str(NE.health)
+```
+
+**Note:** R does not allow special characters (like % or a space character) in column names, so `read.csv()` function changed *%* on `X` and spaces on period characters. Later we will learn how to rename columns (if we want to.)
+
+<br/><br/>
+
+### Data Frames
+
+Data frames in R are used for storing data tables - where each column is a vector and each row is an observation. All columns in data.frames have the same length.
+
+To extract columns from a data frame use a dollar sign `$`:
+```{r}
+unique( NE.health$State)
+```
+
+<br/><br/>
+Since each column in a data frame is a vector, we can apply functions on them:
+```{r}
+max( NE.health$X..Smokers)
+```
+
+<br/>
+
+#### **Exercise**
+
+1. Use `length()` and `unique()` functions to *State* column to find how many Stated are included in this dataset
+2. using `min()`, `max()`, and `mean()` functions, find minimum, maximum and average values for the column containing High School Graduation Rate
+3. Use `summary()` function to get the same minimum, maximum and average values as in 2.
+
+<br/><br/>
+
+### Slicing Data Frames
+
+```{r}
+#get third row
+NE.health[3,]
+
+#get third column
+NE.health[,3]
+
+
+#get first seven rows and second, forth, and fifth columns
+NE.health[ 1:7, c(2,4,5) ]
+
+```
+
+<br/><br/>
+
+### Installing R packages
+
+R packages are collections of functions and data sets developed by the community of researchers and programmers. 
+There are two official R repositories: [CRAN](https://cran.r-project.org/) and [Bioconductor](https://www.bioconductor.org/).
+The first one contains packages applicable to many research areas, while the second one is dedicated to the functions and datasets related to high-throughput genomic data.
+
+[CRAN Task Views](https://cran.r-project.org/web/views/) allow you to browse packages by topic and provide tools to automatically install all packages for special areas of interest. 
+
+To install packages from the  [CRAN](https://cran.r-project.org/), use `install.packages()` function:
+```{r, eval=FALSE}
+install.packages("readr")
+```
+
+In RStudio, the list of installed packages are available in the lower right window under *Packages tab*.
+
+
+<br/><br/>
+
+<h4 class="more">Read more:</h4>
+
+- [R Package: A Beginner's Guide](https://www.datacamp.com/community/tutorials/r-packages-guide)
+- [Factors in R](https://data-flair.training/blogs/r-factor-functions/)
+- [R Data Import and Export](https://cran.r-project.org/doc/manuals/r-release/R-data.html)
+- [More on R Data Import and Export](https://www.datacamp.com/community/tutorials/r-data-import-tutorial)
+
+
+
+<br/><br/>
