@@ -1,0 +1,389 @@
+---
+title: "Data Wrangling and Management"
+author: "Research Computing Services"
+output:
+  html_document:
+    df_print: paged
+---
+
+<style type="text/css">
+
+body{ /* Normal  */
+  font-size: 12px;
+}
+td {  /* Table  */
+  font-size: 10px;
+}
+code.r{ /* Code block */
+    font-size: 12px;
+    background-color: #FAEAEA; 
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 12px;
+}
+
+.more {
+  color: #580000;
+  font-style: italic;
+}
+</style>
+
+<br><br>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, class.source="bg-success")
+```
+
+
+To work with a dataset various operations are needed to bring it to a usable state within a program. During this workshop we will learn how to read data from a file, clean, format and manipulate the data. By the end of it you will learn how to:
+
+We will be use *tibbles* which are similar to R's *data frames*.
+*Tibbles* make R data manipulations much easier. They are defined in the **tibble** package
+which is a part of the *tidyverse* set of packages.
+To access the functions defined in an R package, we use a `library()` function:
+```{r}
+library(tidyverse)
+```
+
+
+
+<br/><br/>
+
+### Reading Data using *readr* and *readxl* packages
+
+*readr* package comes with its own set of functions for reading rectangular data (like 'csv', 'tsv', and fwf'). They are designed to parse many types of data. These functions generally 
+faster than regular `read.csv()` and similar functions. To be able to use this functions, 
+you can load *tidyverse* package or just *readr* package: `library(readr)`.
+
+*readxl* packages allows reading excel-formatted files
+
+
+
+```{r readdata }
+# Read facebook pseudo data
+library(readxl)
+fb <- read_excel("pseudo_facebook.xlsx", sheet=1)
+```
+
+<br/><br/>
+
+We can use `head()`, `str()`, and `summary()` functions to explore the dataset.
+```{r}
+# display class of the fb object
+class(fb)
+```
+
+```{r}
+# Explore the structure of fb object
+str(fb)
+```
+
+<br><br>
+*dplyr* package (part of tidyverse) has a similar function - `glimpse()`
+
+```{r}
+# Explore the structure of fb
+glimpse(fb)
+```
+
+```{r}
+# Summary for columns
+summary(fb)
+```
+
+```{r}
+# Find unique values of "gender" column
+unique(fb$gender)
+```
+<br/><br/>
+
+We need to make sure we handle missing values correctly. Let's re-read the dataset and
+specify how missing values are coded in this dataset
+
+```{r }
+fb <- read_excel("pseudo_facebook.xlsx", sheet=1, na= c("","NA", "#N/A"))
+```
+
+<br/><br/>
+Let's check unique values of the *gender* column again
+```{r}
+unique(fb$gender)
+```
+
+`table()` is a useful function to use for categorical variables:
+
+```{r}
+table(fb$gender, useNA="ifany")
+```
+
+
+<br/><br/>
+Since `fb` is not only a *data.frame*, but also a *tibble*, some R functions
+behave differently:
+
+```{r}
+print( fb )
+```
+
+<br/><br/>
+When printing a tibble in a console window,  `print()` function  outputs only those observations and columns
+that fit the Console window screen. We can modify this behavior using optional arguments:
+
+```{r}
+
+# print 12 observations and all columns
+print( fb, n = 12, width = Inf )
+```
+
+
+Tidyverse packages use the following abbreviations to describe the type of each variable:
+
+- *int* - integers
+- *dbl* - real numbers (numeric or double precision)
+- *chr* - character vectors (or strings)
+- *dttm* - date and time vectors
+- *date* - dates
+- *lgl* - logical vectors
+- *fct* - factors
+
+
+
+<br/><br/>
+
+### Data Transformations using *dplyr* package
+
+Before we can analyze data, we often need to transform the data to get it in the right format.
+
+To do this we might need to rename columns, filter some rows and possibly exclude some columns.
+We might need to create some new variables or reorder the observations or columns.
+
+All these operations can easily be done with a *dplyr* package (which is part of *tidyverse*)
+
+There are five key dplyr functions:
+
+- `filter()` - subset the datasets
+- `select()` - select specific columns
+- `mutate()` - modify existing or create new variables/columns
+- `arrange()` - reorder rows
+- `summarise()` - collapse dataset to a summary
+
+Above functions can be used in conjunction with `group_by()` which allows perform operations
+on the dataset split into groups.
+
+In addition there are many other useful functions including:
+
+- `rename()` - rename columns
+- `count()` - count observations by group
+- `case_when()` - vectorised *if()* function
+
+
+<br/><br/>
+
+### *rename()* - rename columns
+
+We often need to simplify the names of columns to make them easier to use in the code.
+`read_csv()` and other tidyverse functions that read data do not modify original column names 
+and as a results those columns where special characters (like spaces or symbols) are used can
+only be used within back ticks.
+
+```{r}
+# rename columns
+fb1 <- rename(fb, mlikes = "mobile_likes", mlikes_received = "mobile_likes_received")
+names( fb1 )
+```
+
+
+<br/><br/>
+
+### *select()* - select columns of interest
+
+```{r}
+# select four columns 
+fb2 <- select ( fb1, userid, age, gender:friendships_initiated )
+glimpse(fb2)
+```
+
+
+<br/><br/>
+
+### *filter()* - subsetting rows using column values
+
+
+
+```{r}
+# select observations where friend_count is greater than zero
+fb3 <- filter ( fb2, friend_count > 0 )
+head(fb3)
+```
+
+<br/>
+Sometimes we need to further filter our dataset:
+
+```{r}
+# select only observations with gender column equal to "male"
+fb3_male <- filter ( fb3, gender == "male" )
+head(fb3_male)
+```
+
+
+Useful filter functions
+
+- `==` (equal) and `!=` (not equal)
+- `>`, `>=`, `<`, and `<=`
+- is.na()
+- between()
+
+We can connect two or more logical constructs using
+
+- `&` (logical *and*)
+- `|` (logical *or*)
+- `!` (negation)
+
+<br/>
+
+```{r}
+# select observations for which age column does not have missing values and age 
+# is less than 18 and gender is equal to "female"
+fb3_young_females <- filter ( fb3, !is.na(age) & age<18 &  gender == "female")
+summary(fb3_young_females)
+```
+
+<br/><br/>
+
+### *mutate()* - create new or modify existing variables (columns)
+
+```{r}
+# Create a new column *adult* which will be equal to 1 if a person 18 years old or older
+fb4 <- mutate ( fb, adult = ifelse(age < 18, 0, 1) )
+head(fb4)
+```
+
+<br/><br/>
+
+### *arrange()* - sort the dataset by values in one or more columns
+
+```{r}
+# Sort by age
+fb5 <- arrange ( fb, age )
+head(fb5)
+```
+
+```{r}
+# Sort by age in reverse order
+fb6 <- arrange ( fb, desc(age) )
+head(fb6)
+```
+
+
+<br/><br/>
+
+### *%>%* - Pipe symbol
+
+In most cases we need to perform several operations on the input dataset before 
+we can analyse it. For example we might need to use some or all functions, that
+we learned so far - `rename()`, `filter()`, `mutate()`, `select()`, `arange()`.
+
+So far we were saving each intermediate step in a separate variable (*fb2*, *fb3*, etc.)
+This is not ideal as our input dataset might be large and each variable requires a separate space in memory.
+It is also make it hard to remember which variable holds which data.frame.
+
+*Tidyverse* packages use `%>%` (*pipe*) symbol to pass the result from one step to another.
+Pipe symbol allows to take the dataset on the left side and pass it as the first argument to 
+the function on the right side.
+
+The following two ways of selecting three columns are equivalent
+
+```{r, eval = FALSE}
+select ( fb, userid, age, gender:likes)
+
+fb  %>%  select ( userid, age, gender:likes)
+```
+
+
+Imagine that we need to perform the following operations after we read our data:
+
+1. Rename columns
+2. Select some columns
+3. Filter rows (leaving only observations with 1 or more friend or friendship initiated)
+4. Sort observations by "age" column in reverse order
+
+We can use `%>%` symbol to do it in one operation:
+
+<br/>
+
+```{r}
+
+fb_friends <- fb  %>% 
+  rename ( friend_ini = "friendships_initiated") %>%
+  select ( userid, age, gender: likes_received) %>%
+  filter ( ! is.na(age) & (friend_count > 0 | friend_ini > 0 )) %>% 
+  arrange ( desc(age) )
+  
+  head(fb_friends)
+  
+```
+
+<br/><br/>
+
+### *summarise()* - Calculate summary 
+
+<br/>
+```{r}
+# Print number of observations  and
+# mean value of friends
+
+fb %>% summarise ( N = n(), 
+                   ave_friends = mean(friend_count))
+```
+
+
+<br/><br/>
+
+
+### *group_by()* - Grouping operator
+
+
+*group_by()* function allows splitting datasets into groups, so we could apply other functions
+like mutate, arrange, and summarise per group.
+
+<br/>
+```{r}
+# Find average number of friends for male and female
+
+fb  %>% 
+  filter(!is.na(gender)) %>%
+  group_by (gender ) %>% 
+  summarise ( N= n(), ave_friends = mean (friend_count), .groups = "drop" )
+
+```
+
+<br/><br/>
+
+Here is another example: We will create an "age group" variable and then use summarise
+to find an average number of friends within each age group
+
+```{r}
+
+fb  %>% 
+  filter(!is.na(age)) %>%
+  mutate(age_group = case_when( between(age, 1, 17) ~ "child",
+                                between(age, 18, 29) ~ "young adult",
+                                between(age, 30, 69) ~ "adult",
+                                TRUE ~ "senior")) %>%
+  group_by (age_group ) %>% 
+  summarise ( N= n(), ave_friends = mean (friend_count), .groups = "drop" )
+
+```
+
+<br/><br/>
+
+<h4 class="more">Read more:</h4>
+
+- [readr package chearsheet](https://github.com/rstudio/cheatsheets/blob/master/data-import.pdf)
+- [Useful tips on using read_csv and other functions from readr package ](https://r4ds.had.co.nz/data-import.html)
+- [Data Transformation using dplyr package](https://r4ds.had.co.nz/transform.html)
+- [Merging two tables](https://r4ds.had.co.nz/relational-data.html)
+
+
+
+<br/><br/>
