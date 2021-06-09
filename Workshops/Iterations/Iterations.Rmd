@@ -1,0 +1,126 @@
+---
+title: "Iterate your code efficiently: Loops and Apply functions in R"
+author: "Research Computing Services"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, class.source="bg-success")
+```
+
+A few reasons to use loops in your code instead of copying-and-pasting:
+1. reduce duplication
+2. It's easier to read the code 
+3. If part of the code needs to be changed, you only need to make changes in one place.
+4. Code will have fewer bugs.
+
+### Iterate over a range of integer values
+
+```{r}
+
+for (i in 1:3) {
+  print(i)
+}
+
+```
+
+  
+
+### Iterate over a character vector
+
+```{r}
+
+for (i in month.name) {
+  print(i)
+}
+
+```
+
+### Using loops to avoid code duplication
+  
+  
+**Task**: From Election file for each sentiment subset the records where name of Pres. Biden appears in FullText and save it
+as a separate file
+  
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+
+# read the data
+elect <- read_csv("election.csv") %>%
+  select(Title, Sentiment, `Full Text`, Gender, Hashtags, Impact) %>%
+  rename ( FullText = "Full Text") 
+
+
+#check unique values in the column Sentiment
+unique(elect$Sentiment)
+```
+  
+  
+  
+```{r}
+
+for ( sent in unique(elect$Sentiment) ) {
+  
+  sub <- elect %>% 
+    filter(Sentiment == sent) %>%
+    filter ( str_detect(FullText, fixed("Biden", ignore_case = T) ))
+  print ( paste("Number of records in the subset for sentiment", sent, ":", nrow(sub) ))
+  
+}
+
+```
+  
+## `lapply`
+  
+  
+We often need to work with lists. For example, we can use function `strsplit()` to 
+separate various hashtags for each observations. The result will be a list:
+
+```{r}
+hashtag_list <- strsplit(elect$Hashtags, split = ",")
+
+``` 
+
+We can now use `lapply` function to operate on each element of the list.
+For example we can find the number of tags for each record:
+
+```{r}
+N_tags_list <- lapply( hashtag_list, length )
+```
+
+## `sapply`
+
+List are sometimes hard to work with. And when it is possible we want to convert
+them to vectors. In those cases we can use `sapply` function instead (`sapply()` is "simplified" version of `lapply()):
+
+```{r}
+N_tags <- sapply( hashtag_list, length )
+```
+
+
+## `tapply`
+
+`tapply` function is used to apply a specific function to a column separating the dataset for each subgroup of another column.
+
+For example if we want to compute the median number of tags for each sentiment, 
+we could do:
+
+```{r}
+tapply( N_tags, elect$Sentiment, median )
+
+```
+
+Note, that in this case we could also use `dplyr` functions: `group_by()` and `summarise()`:
+
+```{r}
+elect %>% 
+  mutate (N_tags = sapply(strsplit(Hashtags, ","), length)) %>%
+  group_by(Sentiment) %>%
+  summarise (median = median(N_tags) , .groups="drop")
+
+```
+
+
